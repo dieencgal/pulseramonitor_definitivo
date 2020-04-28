@@ -499,6 +499,8 @@ class PacienteController extends Controller
                 ->responsive(true);
             return view('grafica4',['chart'=>$chart]);
 
+            //
+
 
         }
     }
