@@ -50,6 +50,8 @@ class ContactsController extends Controller
 
         //remove first line
         $data = array_slice($file, 1);
+        //Para que salgan los headers
+        //$data = array_slice($file, 0);
 
         //loop through file and split every 1000 lines
         $parts = (array_chunk($data, 1000));
@@ -69,9 +71,12 @@ class ContactsController extends Controller
         /*return redirect("import");*/
         $files = scandir(base_path('/resources/carpetaPacientes/pendingcontacts/' . \Illuminate\Support\Facades\Auth::user()->name . ''), SCANDIR_SORT_DESCENDING);
 
-        $fil=substr($files[0], 0, 8);
+        $fil=substr($files[0], 6, 2);
+        $fil1=substr($files[0], 4, 2);
+        $fil3=substr($files[0], 0, 2);
+
         $fil2=substr($files[0], 9, 5);
-        $var = "La última vez que importó sus datos fué el $fil a las $fil2, no olvide importar sus datos al menos una vez cada dos semanas";
+        $var = "La última vez que importó sus datos fué el $fil/$fil1/$fil3 , no olvide importar sus datos al menos una vez cada dos semanas";
         $pacientes = Paciente::all()->where('id', (\Illuminate\Support\Facades\Auth::user()->id) - 1);
         return view('home',['pacientes'=>$pacientes,'var'=>$var]);
     }

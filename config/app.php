@@ -241,6 +241,7 @@ return [
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Charts' => ConsoleTVs\Charts\Facades\Charts::class,
         'PollWriter' => Inani\Larapoll\PollWriterFacade::class,
+        'Carbon' => 'Carbon\Carbon',
 
 
     ],

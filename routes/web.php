@@ -65,6 +65,8 @@ Route::get('grafica2',  'PacienteController@comparacion2');
 Route::get('grafica3',  'PacienteController@comparacion3');
 Route::get('grafica4',  'PacienteController@comparacion4');
 
+Route::get('ayuda',  'PasosController@ayuda');
+
 
 
 

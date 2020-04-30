@@ -58,7 +58,7 @@
             font-weight: 600;
             letter-spacing: .1rem;
             text-decoration: none;
-            text-transform: uppercase;
+            text-transform: none;
         }
 
         .m-b-md {
@@ -145,11 +145,12 @@
                         Use el desplegable para ver sus avances.
 
                     </div>
-                         <a href="{{  url('import') }}" class="btn btn-primary">Importar</a>
+                         <a href="{{  url('import') }}" class="btn btn-primary">Importar</a> ----><a href="https://takeout.google.com/settings/takeout">Página web de Google Takeout</a><br>
 
-
+                    <br><br>
                     <div class="links">
-                        <a href="https://takeout.google.com/settings/takeout">Extraiga sus datos pinchando aquí</a>
+
+                        ¿No sabe cómo extraer sus datos de la pulsera?<a href="{{  url('ayuda') }}" class="btn btn">Vea el siguiente vídeo</a>
 
 
                     </div>

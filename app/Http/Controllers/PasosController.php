@@ -28,6 +28,10 @@ class PasosController extends Controller
         $this->middleware('auth');
     }
 
+    public function ayuda(){
+        return view('ayuda');
+    }
+
     public function index()
 
     {

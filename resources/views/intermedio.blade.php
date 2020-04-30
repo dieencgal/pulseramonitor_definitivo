@@ -112,8 +112,8 @@
             margin: fill;
             horiz-align: center;
             vertical-align: center;
-            height: 190px;
-            width: 240px;
+            height: 250px;
+            width: 410px;
 
         }
 
@@ -158,11 +158,14 @@
                     <br><br>
             </div>
             </div>
+                <div class="col-md-8 col-md-offset-3">
 
 
+                <img src="img/podium.png" />
 
-                <img src="img/imagenpodio.jpg" />
             </div>
+            </div>
+
         </div>
     </div>
 

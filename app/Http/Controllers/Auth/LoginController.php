@@ -79,8 +79,18 @@ class LoginController extends Controller
 
              Auth::login($authUser,true);
 
+
+        $files = scandir(base_path('/resources/carpetaPacientes/pendingcontacts/' . \Illuminate\Support\Facades\Auth::user()->name . ''), SCANDIR_SORT_DESCENDING);
+
+        $fil=substr($files[0], 6, 2);
+        $fil1=substr($files[0], 4, 2);
+        $fil3=substr($files[0], 0, 2);
+
+        $fil2=substr($files[0], 9, 5);
+        $var = "La última vez que importó sus datos fué el $fil/$fil1/$fil3 , no olvide importar sus datos al menos una vez cada dos semanas";
         $pacientes = Paciente::all()->where('id', (\Illuminate\Support\Facades\Auth::user()->id) - 1);
-        return view('home',['pacientes'=> $pacientes]);
+        return view('home',['pacientes'=>$pacientes,'var'=>$var]);
+
 
 
 
