@@ -17,6 +17,8 @@ use Auth;
 
 
 
+
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 
 
@@ -359,6 +361,17 @@ class PacienteController extends Controller
         public function ola(){
             dd("ola");
         }
+        public function search(Request $request){
+
+                $search= $request->get('search');
+
+                $pacientes= Paciente::where('apellidos','like','%'.$search.'%')->get();
+                return view('pacientes.index',['pacientes'=>$pacientes]);
+
+        }
+
+
+
 
     public function comparacion3(){
 

@@ -44,7 +44,9 @@ class Registro_suenoController extends Controller
                 $cuanta = Registro_sueno::all()->where('paciente_id', ($user->id))->where('horas_sueno','>',0)->count();
                 if ($cuanta !== 0) {
                     $data->push(Registro_sueno::all()->where('paciente_id', ($user->id))->sum('horas_sueno')/$cuanta);
+
                     $data1->push($user->id);
+
                 }
             }
 
@@ -78,17 +80,21 @@ class Registro_suenoController extends Controller
         if (($handle = fopen($newest_file, 'r')) !== FALSE) {
             while (($data = fgetcsv($handle, 2000, ',')) !== FALSE) {
                 $dateExists = Registro_sueno::where('fecha', $data[0])->where('paciente_id', (Auth::user()->id) - 1)->first();
+
                 if (!$dateExists) {
                     $csv_data = new Registro_sueno ();
                     $csv_data->fecha = $data [0];
 
 
-                    if ($data [15] == '') {
+                    if ($data [17] == '') {
 
                         $csv_data->horas_sueno = 0;
+
                         //LO MEJOR CONVERTIRLO ASTRING toDateTimeString();
                     } else {
-                        $csv_data->horas_sueno = $data [15] * 2.77778e-7;
+
+
+                        $csv_data->horas_sueno = $data [17] * 2.77778e-7;
 
                     }
                     $csv_data->paciente_id = $pacientes[0];
@@ -159,7 +165,7 @@ class Registro_suenoController extends Controller
         $this->validate($request, [
 
             'fecha' => 'required|date',
-            'horas_sueno' => 'required|date',
+            'horas_sueno' => 'required|max:255',
             'paciente_id' => 'required|exists:pacientes,id'
         ]);
         $registro_suenos = new Registro_sueno($request->all());
@@ -212,7 +218,7 @@ class Registro_suenoController extends Controller
         $this->validate($request, [
 
             'fecha' => 'required|date',
-            'horas_sueno' => 'required|date',
+            'horas_sueno' => 'required|max:255',
             'paciente_id' => 'required|exists:pacientes,id'
         ]);
 

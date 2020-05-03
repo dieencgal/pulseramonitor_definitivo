@@ -130,38 +130,32 @@
                                 </tr>
                             @endforeach
                         </table>
+                        <br><br>
+
+                        <div class="panel-body">
+
+                            Use el desplegable para ver sus avances.
+
+                        </div>
+                        <a href="{{  url('import') }}" class="btn btn-primary">Importar</a> ----><a href="https://takeout.google.com/settings/takeout">Página web de Google Takeout</a><br>
+
+                        <br><br>
+                        <div class="links">
+
+                            ¿No sabe cómo extraer sus datos de la pulsera?<a href="{{  url('ayuda') }}" class="btn btn">Vea el siguiente vídeo</a>
+
+
+                        </div>
+                        <br><br>
+                        <div class="panel panel-dos">
+
+
+                            <div> {{$var}} </div>
+
+
+                        </div>
                     @endif
 
-
-
-
-
-
-
-                    <br><br>
-
-                    <div class="panel-body">
-
-                        Use el desplegable para ver sus avances.
-
-                    </div>
-                         <a href="{{  url('import') }}" class="btn btn-primary">Importar</a> ----><a href="https://takeout.google.com/settings/takeout">Página web de Google Takeout</a><br>
-
-                    <br><br>
-                    <div class="links">
-
-                        ¿No sabe cómo extraer sus datos de la pulsera?<a href="{{  url('ayuda') }}" class="btn btn">Vea el siguiente vídeo</a>
-
-
-                    </div>
-                    <br><br>
-                    <div class="panel panel-dos">
-
-
-                        <div> {{$var}} </div>
-
-
-                    </div>
 
 
 

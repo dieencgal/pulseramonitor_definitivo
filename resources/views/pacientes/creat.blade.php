@@ -28,9 +28,9 @@
                                 <th>Peso</th>
                                 <th>Sexo</th>
                                 <th>Altura</th>
-                                <th>Operacion</th>
-                                <th>tipo_paciente</th>
-                                <th>medico_id</th>
+                                <th>Operación</th>
+                                <th>Tipo paciente</th>
+                                <th>Médico</th>
                                 <th colspan="2">Acciones</th>
                             </tr>
 
@@ -71,20 +71,20 @@
                             <tr>
 
                                 <th>Fecha</th>
-                                <th>Distancia</th>
-                                <th>Frecuencia cardiaca media</th>
-                                <th>Frecuencia cardiaca max</th>
-                                <th>Frecuencia cardiaca min</th>
-                                <th>Velocidad media</th>
-                                <th>Velocidad max</th>
-                                <th>Velocidad min</th>
-                                <th>Velocidad min</th>
+                                <th>Distancia (m)</th>
+                                <th>Frecuencia cardiaca media (ppm)</th>
+                                <th>Frecuencia cardiaca max (ppm)</th>
+                                <th>Frecuencia cardiaca min (ppm)</th>
+                                <th>Velocidad media (m/s)</th>
+                                <th>Velocidad max (m/s)</th>
+                                <th>Velocidad min (m/s) </th>
                                 <th>Recuento pasos</th>
-                                <th>Peso max</th>
+                                <th>Peso medio (kg)</th>
+                                <th>Peso max (kg)</th>
                                 <th>Peso min</th>
                                 <th>Recuento de minutos activos</th>
                                 <th>Andar duración</th>
-                                <th>Dormir duracion</th>
+                                <th>Dormir duracion (ms)</th>
                             </tr>
                             </thead>
                             <tbody>
