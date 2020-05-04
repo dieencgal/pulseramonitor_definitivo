@@ -85,7 +85,7 @@
 
     </style>
 
-    <body>
+
 
 
 
@@ -111,8 +111,8 @@
 
                     <br><br>
 
-                        <div class="col-md-4">
-                            <button type="submit" >Buscar paciente por apellido</button>
+                        <div class="col-md-6">
+                            <button type="submit" >Buscar un paciente por apellido, tipo operación o número de ID</button>
                             <form action="/search"  method="get">
                                 <div class="form-group">
                                     <input type="search" name="search" class="form-control" placeholder="Buscar paciente">

@@ -153,13 +153,11 @@
                         {!! Form::close() !!}
 
                         <br><br>
-
-
-                        <div class="col-md-4">
-                            <button type="submit" >Buscar paso por fecha</button>
+                        <div class="col-md-6">
+                            <button type="submit" >Mostrar pasos realizados el día (número del día)</button>
                             <form action="/search2"  method="get">
                                 <div class="form-group">
-                                    <input type="search" name="search2" class="form-control" placeholder="Buscar paso en fecha">
+                                    <input type="search2" name="search2" class="form-control" placeholder="Ej 10">
                                     <span class="input-group-prepend">
 
                                     </span>
@@ -167,6 +165,9 @@
                                 </div>
                             </form>
                         </div>
+
+
+
                         <table class="table table-striped table-bordered">
                             <tr>
 

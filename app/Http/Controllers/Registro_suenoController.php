@@ -94,7 +94,7 @@ class Registro_suenoController extends Controller
                     } else {
 
 
-                        $csv_data->horas_sueno = $data [17] * 2.77778e-7;
+                        $csv_data->horas_sueno = number_format($data [17] * 2.77778e-7, 2);
 
                     }
                     $csv_data->paciente_id = $pacientes[0];

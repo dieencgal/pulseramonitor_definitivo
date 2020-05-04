@@ -361,14 +361,40 @@ class PacienteController extends Controller
         public function ola(){
             dd("ola");
         }
-        public function search(Request $request){
+        public function search(Request $request)
+        {
 
-                $search= $request->get('search');
+            $search = $request->get('search');
+            if (is_numeric($search)){
+                //$pacientes = Paciente::where(parse('fecha')->format('d'), $search)->get();
+               // date_parse_from_format('Y-m-d', '2010-11-24')['day'];
+                $pacientes = Paciente::where('id', $search)->get();
 
-                $pacientes= Paciente::where('apellidos','like','%'.$search.'%')->get();
-                return view('pacientes.index',['pacientes'=>$pacientes]);
+
+
+            }else {
+
+                $pacientes = Paciente::where('apellidos', 'like', '%' . $search . '%')->orWhere('operacion', 'like', '%' . $search . '%')->get();
+            }
+            return view('pacientes.index', ['pacientes' => $pacientes]);
 
         }
+    public function search2(Request $request)
+    {
+
+        $search = $request->get('search2');
+
+
+        $pasos=Paso::whereDay('fecha','=',$search)->get();
+
+
+
+
+
+
+        return view('pasos.table', ['pasos' => $pasos]);
+
+    }
 
 
 

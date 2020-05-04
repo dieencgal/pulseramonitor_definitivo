@@ -150,7 +150,7 @@
                     <p>¿Cómo obtengo mis datos?:</p>
                     <video width="640" height="360" controls preload="none">
 
-                        <source src="{{ asset('img/test.mp4') }}"  type="video/mp4" />
+                        <source src="{{ asset('img/pulsermonitortutorial.mp4') }}"  type="video/mp4" />
 
                     </video>
 
