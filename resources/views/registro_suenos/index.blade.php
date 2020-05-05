@@ -156,6 +156,18 @@
                         {!! Form::close() !!}
 
                         <br><br>
+                        <div class="col-md-8">
+                            <button type="submit" >Mostrar registro de sueño del día ... (número del día)</button>
+                            <form action="/search3"  method="get">
+                                <div class="form-group">
+                                    <input type="search3" name="search3" class="form-control" placeholder="Ej 10">
+                                    <span class="input-group-prepend">
+
+                                    </span>
+
+                                </div>
+                            </form>
+                        </div>
                         <table class="table table-striped table-bordered">
                             <tr>
                                 <th>Fecha</th>

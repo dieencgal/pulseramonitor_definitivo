@@ -68,7 +68,12 @@
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
                                         <a href="{{ url('/medicos') }}">
-                                            Medicos
+                                            Médicos
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url('/pacientes') }}">
+                                            Pacientes
                                         </a>
                                     </li>
                                     <li>
@@ -81,14 +86,6 @@
                                             Registro Sueños
                                         </a>
                                     </li>
-
-
-                                    <li>
-                                        <a href="{{ url('/pacientes') }}">
-                                            Pacientes
-                                        </a>
-                                    </li>
-
                                     <li>
                                         <a href="{{ url('/frecuencia_cardiacas') }}">
                                             Frecuencias cardiacas
@@ -98,7 +95,7 @@
                                         <a href="{{ url('/logout') }}"
                                            onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                            Logout
+                                            Cerrar sesión
                                         </a>
 
                                         <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">

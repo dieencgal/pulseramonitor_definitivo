@@ -64,6 +64,18 @@
                         {!! Form::close() !!}
 
                         <br><br>
+                        <div class="col-md-6">
+                            <button type="submit" >Mostrar frecuencia cardíaca del día ...(número del día)</button>
+                            <form action="/search4"  method="get">
+                                <div class="form-group">
+                                    <input type="search4" name="search4" class="form-control" placeholder="Ej 10">
+                                    <span class="input-group-prepend">
+
+                                    </span>
+
+                                </div>
+                            </form>
+                        </div>
                         <table class="table table-striped table-bordered">
                             <tr>
                                 <th>Fecha</th>

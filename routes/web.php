@@ -69,6 +69,8 @@ Route::get('ayuda',  'PasosController@ayuda');
 //Route::get('pacientes.table','PacienteController@filtraPacienteApellido')->name('pacientes.table');
 Route::get('/search','PacienteController@search');
 Route::get('/search2','PacienteController@search2');
+Route::get('/search3','PacienteController@search3');
+Route::get('/search4','PacienteController@search4');
 
 
 

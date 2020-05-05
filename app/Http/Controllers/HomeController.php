@@ -3,11 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Paciente;
-use http\Client\Curl\User;
+use App\Paso;
+use App\User;
+use Carbon\Carbon;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use View;
+
+
+
 
 
 
@@ -42,21 +48,52 @@ class HomeController extends Controller
             if(File::exists(base_path('/resources/carpetaPacientes/pendingcontacts/'.Auth::user()->name))) {
 
                 $files = scandir(base_path('/resources/carpetaPacientes/pendingcontacts/' . Auth::user()->name . ''), SCANDIR_SORT_DESCENDING);
-                $fil=substr($files[0], 0, 8);
+                $fil=substr($files[0], 6, 2);
+                $fil1=substr($files[0], 4, 2);
+                $fil3=substr($files[0], 0, 2);
+
                 $fil2=substr($files[0], 9, 5);
-                $var = "La última vez que importó sus datos fué el $fil a las $fil2, no olvide importar sus datos al menos una vez cada dos semanas";
+                $var = "La última vez que importó sus datos fué el $fil/$fil1/$fil3 , no olvide importar sus datos al menos una vez cada dos semanas";
 
             }else {
                 $var = "Aun no ha importado ningún dato";
             }
+                return view('home',['pacientes'=>$pacientes,'var'=>$var]);
 
 
     }else{
+                $vor="";
+                $usuario= User::all()->where('id','>',1);
+                foreach ($usuario as $user){
+                $files = scandir(base_path('/resources/carpetaPacientes/pendingcontacts/' . $user->name . ''), SCANDIR_SORT_DESCENDING);
+
+                if(Carbon::now()->subDays(14) >= (date('Y-m-d',strtotime(substr($files[0], 0, 8))))){
+                    /*$vor="\r\n" .$vor. "\r\n" ."El usuario ".$user->name." lleva desde el ".(date('Y-m-d',strtotime(substr($files[0], 0, 8))))." sin importar datos, su correo es ".$user->email.".". "\r\n";*/
+                     $vor=$vor."El usuario ".$user->name." lleva desde el ".(date('Y-m-d',strtotime(substr($files[0], 0, 8))))." sin importar datos, su correo es ".$user->email."\n";
+
+                    }
+
+
+                }
                 $var='';
+                $pacient= Paciente::all();
+                foreach ($pacient as $paciente){
+                    $cont=Paso::all()->where('paciente_id',$paciente->id)->where('fecha','>',Carbon::now()->subDays(14))->count();
+                    $num_pasos= Paso::all()->where('paciente_id',$paciente->id)->where('fecha','>',Carbon::now()->subDays(14))->sum('num_pasos');
+                    if (($num_pasos/$cont) < 5500){
+                        $pacientes= $paciente->get();
+                    }
+                    if($pacientes->count() <1){
+                        $var= ' No tiene ningún paciente con una media de pasos al día menor que 5500';
+                    }
+
+                }
+
+                return view('home',['pacientes'=>$pacientes,'var'=>$var,'vor'=>$vor]);
             }
 
 
-            return view('home',['pacientes'=>$pacientes,'var'=>$var]);
+
 
         }
 

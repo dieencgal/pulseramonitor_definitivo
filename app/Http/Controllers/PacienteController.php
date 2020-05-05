@@ -380,19 +380,36 @@ class PacienteController extends Controller
 
         }
     public function search2(Request $request)
+{
+
+    $search = $request->get('search2');
+
+
+    $pasos=Paso::whereDay('fecha','=',$search)->get();
+
+    return view('pasos.table', ['pasos' => $pasos]);
+
+}
+    public function search3(Request $request)
     {
 
-        $search = $request->get('search2');
+        $search = $request->get('search3');
 
 
-        $pasos=Paso::whereDay('fecha','=',$search)->get();
+        $registro_suenos=Registro_sueno::whereDay('fecha','=',$search)->get();
+
+        return view('registro_suenos.table', ['registro_suenos' => $registro_suenos]);
+
+    }
+    public function search4(Request $request)
+    {
+
+        $search = $request->get('search4');
 
 
+        $frecuencia_cardiacas=Frecuencia_cardiaca::whereDay('fecha','=',$search)->get();
 
-
-
-
-        return view('pasos.table', ['pasos' => $pasos]);
+        return view('frecuencia_cardiacas.table', ['frecuencia_cardiacas' => $frecuencia_cardiacas]);
 
     }
 
@@ -483,7 +500,7 @@ class PacienteController extends Controller
             $a=Carbon::createFromTimeString((Paciente::where('id',$id)->pluck('updated_at'))[0])->toDate();
             $o=(Paciente::where('id',$id)->pluck('updated_at'))[0]->toDateTimeString();
 
-            $cuenta=Registro_sueno::all()->where('paciente_id',$id)->where('fecha','>',$o)->where('horas_sueno','>',0)->count();
+            $cuenta=Registro_sueno::all()->where('paciente_id',$id)->where('fecha','>',$o)->where('hosubras_sueno','>',0)->count();
             $cuenta2=Registro_sueno::all()->where('paciente_id',$id)->where('fecha','<',$o)->where('horas_sueno','>',0)->count();
             $num_pasos=Registro_sueno::all()->where('paciente_id',$id)->where('fecha','>',$o)->where('horas_sueno','>',0)->sum('horas_sueno');
             $num_pasos2=Registro_sueno::all()->where('paciente_id',$id)->where('fecha','<',$o)->where('horas_sueno','>',0)->sum('horas_sueno');
