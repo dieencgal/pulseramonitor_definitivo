@@ -34,6 +34,10 @@ class Paciente extends  Model
     {
         return $this->hasMany('App\Registro_sueno');
     }
+    public function video()
+    {
+        return $this->hasMany('App\Video');
+    }
     public function getFullNameAttribute()
     {
         return $this->nombre .' '.$this->apellidos;

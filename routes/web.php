@@ -28,6 +28,7 @@ Route::resource('pacientes', 'PacienteController');
 Route::resource('pasos', 'PasosController');
 Route::resource('periodo_suenos', 'Periodo_suenoController');
 Route::resource('registro_suenos', 'Registro_suenoController');
+Route::resource('videos', 'VideoController');
 
 
 Route::get('login2','HomeController@login2');
@@ -59,6 +60,9 @@ Route::get('paciente/filtro','Registro_suenoController@filtrarpaciente')->name('
 Route::get('/intermedio', function () {
     return view('intermedio');
 });
+Route::get('/ejercicios', function () {
+    return view('ejercicios');
+});
 
 Route::get('grafica',  'PacienteController@comparacion');
 Route::get('grafica2',  'PacienteController@comparacion2');
@@ -71,6 +75,7 @@ Route::get('/search','PacienteController@search');
 Route::get('/search2','PacienteController@search2');
 Route::get('/search3','PacienteController@search3');
 Route::get('/search4','PacienteController@search4');
+Route::get('/search5','PacienteController@videos');
 
 
 

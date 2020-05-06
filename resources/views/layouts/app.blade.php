@@ -92,6 +92,11 @@
                                         </a>
                                     </li>
                                     <li>
+                                        <a href="{{ url('/videos') }}">
+                                            Vídeos
+                                        </a>
+                                    </li>
+                                    <li>
                                         <a href="{{ url('/logout') }}"
                                            onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -134,6 +139,11 @@
                                 <li>
                                     <a href="{{ url('/intermedio') }}">
                                         Comparaciones
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('/videos.index') }}">
+                                        Guía de ejercicios
                                     </a>
                                 </li>
 

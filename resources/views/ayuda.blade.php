@@ -10,8 +10,8 @@
             color: black /*#636b6f*/;
             font-family: 'Raleway', sans-serif;
             font-weight: 100;
-            height: 100vh;com
-        margin: 0;
+            height: 100vh;
+            margin: 0;
 
             /*background: transparent url('img/xia.jpg') no-repeat center center;
             background-repeat: no-repeat;
@@ -158,6 +158,7 @@
 
 
         </div>
+    </div>
     </div>
 
 

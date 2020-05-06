@@ -650,4 +650,27 @@ class PacienteController extends Controller
             return redirect()->route('pacientes.index');
         }
     }
+    public function videos(Request $request){
+        $search = $request->get('search4');
+        $id=Auth::user()->id;
+        $var="\n";
+        $tipopaciente=Paciente::all()->where('id',$id)->get('tipo_paciente');
+        if($tipopaciente != 'sano'){
+            if(Paciente::where('id',$id)->where('operacion', 'like', '%' . $search . '%')->count() >0){
+
+
+                    $var=$var."https://www.youtube.com/watch?v=IikPIs3xso0\n";
+                    $var=$var."https://www.youtube.com/watch?v=SiPOBea-OL8&pbjreload=10\n";
+
+
+
+            }else{
+
+                $var='';
+            }
+
+
+        }
+        return view ('ejercicios2',['var'=>$var]);
+    }
 }
