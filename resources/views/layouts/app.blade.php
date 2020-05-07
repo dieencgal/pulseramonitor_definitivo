@@ -142,7 +142,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ url('/videos.index') }}">
+                                    <a href="{{ url('/videosindex') }}">
                                         Guía de ejercicios
                                     </a>
                                 </li>

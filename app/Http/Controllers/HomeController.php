@@ -80,11 +80,13 @@ class HomeController extends Controller
                 foreach ($pacient as $paciente){
                     $cont=Paso::all()->where('paciente_id',$paciente->id)->where('fecha','>',Carbon::now()->subDays(14))->count();
                     $num_pasos= Paso::all()->where('paciente_id',$paciente->id)->where('fecha','>',Carbon::now()->subDays(14))->sum('num_pasos');
-                    if (($num_pasos/$cont) < 5500){
-                        $pacientes= $paciente->get();
-                    }
-                    if($pacientes->count() <1){
-                        $var= ' No tiene ningún paciente con una media de pasos al día menor que 5500';
+                    if($num_pasos !=0 && $cont !=0) {
+                        if (($num_pasos / $cont) < 5500) {
+                            $pacientes = $paciente->get();
+                        }
+                        if ($pacientes->count() < 1) {
+                            $var = ' No tiene ningún paciente con una media de pasos al día menor que 5500';
+                        }
                     }
 
                 }

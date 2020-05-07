@@ -77,6 +77,8 @@ Route::get('/search3','PacienteController@search3');
 Route::get('/search4','PacienteController@search4');
 Route::get('/search5','PacienteController@videos');
 
+Route::get('videosindex',  'VideoController@index');
+
 
 
 
