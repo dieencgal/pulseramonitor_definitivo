@@ -171,8 +171,9 @@
 
                                     <td>
                                         <a href="{{ url('infoPacientes/'.$paciente->id.'/') }}">
-                                            Datos del paciente
+                                            {!!     Form::submit('Ver datos', ['class'=> 'btn btn-primary'])!!}
                                         </a>
+
 
 
                                     </td>

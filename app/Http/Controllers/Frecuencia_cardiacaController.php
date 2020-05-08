@@ -106,14 +106,16 @@ class Frecuencia_cardiacaController extends Controller
 
             }
 
-            $frecuencia_cardiacas= Frecuencia_cardiaca::all()->where('paciente_id',(Auth::user()->id)-1)->where('frec_cardiaca_media','>',0);;
-            $chart = Charts::database($frecuencia_cardiacas, 'bar', 'highcharts')
-                ->title('Frecuencia cardíaca media')
-                ->elementLabel('Fecha')
-                ->dimensions(1000, 500)
+            $frecuencia_cardiacas= Frecuencia_cardiaca::all()->where('paciente_id',(Auth::user()->id)-1)->where('frec_cardiaca_min','>',0);
+
+            $chart= Charts::multi('line', 'highcharts')
+                ->responsive(true)
+                ->dimensions(0, 500)
+                ->template("material")
                 ->labels($frecuencia_cardiacas->pluck('fecha'))
-                ->values($frecuencia_cardiacas->pluck('frec_cardiaca_media'))
-                ->responsive(true);
+                ->title('Frecuencia cardíaca en reposo')
+                ->yAxisTitle("Pulsaciones por minuto")
+                ->dataset('Frecuencia cardíaca media mínima', $frecuencia_cardiacas->pluck('frec_cardiaca_min'));
 
             return view('frecuencia_cardiacas.index', ['frecuencia_cardiacas' => $frecuencia_cardiacas,'chart' => $chart]);
 

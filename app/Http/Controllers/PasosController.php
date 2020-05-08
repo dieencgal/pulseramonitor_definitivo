@@ -10,6 +10,7 @@ use Auth;
 
 
 use Carbon\Carbon;
+use ConsoleTVs\Charts\Builder\Chart;
 use ConsoleTVs\Charts\Facades\Charts;
 
 use Illuminate\Support\Facades\File;
@@ -99,18 +100,42 @@ class PasosController extends Controller
             }
             $pasos = Paso::all()->where('paciente_id', (Auth::user()->id) - 1)->where('num_pasos','>',0);;
             $products= Paso::where('paciente_id',(Auth::user()->id)-1);
+            $product=Paso::where('paciente_id',(Auth::user()->id)-1)->where('num_pasos','>=',9000);
+            $product2=Paso::where('paciente_id',(Auth::user()->id)-1)->where('num_pasos','<',9000);
 
 
 
 
 
-            $chart = Charts::database($products, 'bar', 'highcharts')
+           /* $chart = Charts::database($products, 'bar', 'highcharts')
                 ->title('Pasos')
                 ->elementLabel('Pasos')
                 ->dimensions(1000, 500)
                 ->labels($products->pluck('fecha'))
                 ->values($products->pluck('num_pasos'))
-                ->responsive(true);
+                ->responsive(true);*/
+            /*$chart = new Chart();
+            $chart->title("First Response Time");
+            $chart->labels($products->pluck('fecha'));
+            $chart->dataset('Daily Visitors Bar', 'bar', $products->pluck('num_pasos') )->color('white')->backgroundColor(['#009900','#8a8a5c','#f1c40f','#e67e22','#16a085','#2980b9']);
+
+            $chart->height(500);*/
+           $chart= Charts::multi('line', 'highcharts')
+               ->responsive(true)
+               ->dimensions(0, 500)
+               ->template("material")
+               ->labels($products->pluck('fecha'))
+               ->title('Recuento de pasos')
+               ->yAxisTitle("Número de pasos")
+               ->dataset('Recuento de pasos diarios', $products->pluck('num_pasos'));
+
+            /*$chart = Charts::create('line', 'highcharts')
+                ->title('Line Chart Demo')
+                ->elementLabel('Chart Labels')
+                ->labels($products->pluck('fecha'))
+                ->values($products->pluck('num_pasos'))
+                ->dimensions(1000,500)
+                ->responsive(true);*/
 
 
             return view('pasos.index', ['pasos' => $pasos,'chart' => $chart]);

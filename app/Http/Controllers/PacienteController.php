@@ -9,11 +9,13 @@ use App\Paso;
 use App\Registro_sueno;
 use App\User;
 use Carbon\Carbon;
+use ConsoleTVs\Charts\Builder\Chart;
 use ConsoleTVs\Charts\Facades\Charts;
 use File;
 use Illuminate\Http\Request;
 use App\Medico;
 use Auth;
+
 
 
 
@@ -328,17 +330,27 @@ class PacienteController extends Controller
                 $data1->push('Media de pasos después de la operacion');
 
             }
+            $ante=Paso::all()->where('paciente_id',$id);
+            $ante2=Paso::all()->where('paciente_id',$id)->where('fecha','<',$o);
 
 
+          $chart= Charts::multi('line', 'highcharts')
+                ->responsive(true)
+                ->dimensions(0, 500)
+                ->template("material")
+                ->labels($ante->pluck('fecha'))
+                ->title('Media de horas de sueño')
+                ->yAxisTitle("Horas")
+                ->dataset('Registro de horas de sueño', $ante->pluck('distancia'))
+            ->dataset('Registro de horas de sueño', $ante->pluck('num_pasos'));
 
-
-            $chart = Charts::database($data, 'bar', 'highcharts')
+           /* $chart = Charts::database($data, 'bar', 'highcharts')
                 ->title("Media de número de pasos antes y después de la operación")
                 ->elementLabel("Media de pasos")
                 ->dimensions(1000, 500)
                 ->labels($data1)
                 ->values($data)
-                ->responsive(true);
+                ->responsive(true);*/
             return view('grafica2',['chart'=>$chart]);
 
         }else{

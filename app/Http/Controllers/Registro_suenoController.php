@@ -104,16 +104,18 @@ class Registro_suenoController extends Controller
             fclose($handle);
         }
 
-            $registro_suenos = Registro_sueno::all()->where('paciente_id', (Auth::user()->id) - 1)->where('horas_sueno','>',0);
+            $registro_suenos = Registro_sueno::all()->where('paciente_id', (Auth::user()->id) - 1)->where('horas_sueno','>',1);
         //$registro_suenos= $csv_data::all();
 
-            $chart = Charts::database($registro_suenos, 'bar', 'highcharts')
-                ->title('Horas de sueño')
-                ->elementLabel('Fecha')
-                ->dimensions(1000, 500)
+
+            $chart= Charts::multi('line', 'highcharts')
+                ->responsive(true)
+                ->dimensions(0, 500)
+                ->template("material")
                 ->labels($registro_suenos->pluck('fecha'))
-                ->values($registro_suenos->pluck('horas_sueno'))
-                ->responsive(true);
+                ->title('Media de horas de sueño')
+                ->yAxisTitle("Horas")
+                ->dataset('Registro de horas de sueño', $registro_suenos->pluck('horas_sueno'));
 
 
 

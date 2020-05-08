@@ -134,7 +134,7 @@
     </style>
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-8">
                 <div id="myDiv">
 
                 </div>
@@ -153,7 +153,7 @@
                         <tr>
                             <th>Vídeo</th>
 
-                            <th colspan="2">Acciones</th>
+
                         </tr>
 
 
@@ -162,19 +162,9 @@
 
 
                             <tr>
-                              <td>  <iframe width="420" height="315" src={!! $video->url !!} frameborder="0" allowfullscreen></iframe>  </td>
+                              <td>  <iframe width="620" height="315" src={!! $video->url !!} frameborder="0" allowfullscreen></iframe>  </td>
 
-                                <td>
-                                    {!! Form::open(['route' => ['videos.edit',$video->id], 'method' => 'get']) !!}
-                                    {!!   Form::submit('Editar', ['class'=> 'btn btn-warning'])!!}
-                                    {!! Form::close() !!}
-                                </td>
-                                <td>
-                                    {!! Form::open(['route' => ['videos.destroy',$video->id], 'method' => 'delete']) !!}
-                                    {!!   Form::submit('Borrar', ['class'=> 'btn btn-danger' ,'onclick' => 'if(!confirm("¿Está seguro?"))event.preventDefault();'])!!}
-                                    {!! Form::close() !!}
 
-                                </td>
                             </tr>
                         @endforeach
                     </table>
