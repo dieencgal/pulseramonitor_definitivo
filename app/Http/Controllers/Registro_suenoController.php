@@ -34,7 +34,7 @@ class Registro_suenoController extends Controller
         if ((Auth::user()->hasRole('admin'))) {
             $registro_suenos = Registro_sueno::all();
             $data = collect([]);
-            $data2 = collect([]);
+
             $data1 = collect([]);// Could also be an array
             $users= Paciente::all();
 

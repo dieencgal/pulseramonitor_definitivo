@@ -156,11 +156,12 @@
                         {!! Form::close() !!}
 
                         <br><br>
+                        @if ((Auth::user()->hasRole('admin')))
                         <div class="col-md-8">
-                            <button type="submit" >Mostrar registro de sueño del día ... (número del día)</button>
+                            <button type="submit" >Búsque por apellido del paciente la gráfica del registro de sueño que desee ver</button>
                             <form action="/search3"  method="get">
                                 <div class="form-group">
-                                    <input type="search3" name="search3" class="form-control" placeholder="Ej 10">
+                                    <input type="search3" name="search3" class="form-control" placeholder="Ej García Calvo">
                                     <span class="input-group-prepend">
 
                                     </span>
@@ -168,6 +169,7 @@
                                 </div>
                             </form>
                         </div>
+                        @endif
                         <table class="table table-striped table-bordered">
                             <tr>
                                 <th>Fecha</th>

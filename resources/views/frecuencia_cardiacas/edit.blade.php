@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
     @if(Auth::user()->hasRole('admin'))
         <li>
@@ -30,8 +29,6 @@
                                 {!! Form::label('frec_cardiaca_min', 'frecuencia cardiaca minima') !!}
                                 {!! Form::text('frec_cardiaca_min',$frecuencia_cardiaca->frec_cardiaca_min,['class'=>'form-control', 'required', 'autofocus']) !!}
                             </div>
-
-
                             <div class="form-group">
                                 {!!Form::label('paciente_id', 'Paciente') !!}
                                 <br>

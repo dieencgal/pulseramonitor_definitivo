@@ -44,6 +44,12 @@
                                 {!! Form::text('operacion',null,['class'=>'form-control', 'required']) !!}
                             </div>
                             <div class="form-group">
+                                {!! Form::label('fecha_operacion', 'Fecha y hora de la operación') !!}
+
+                                <input type="datetime-local" id="fecha_operacion" name="fecha_operacion" class="form-control"
+                                       value="{{Carbon\Carbon::createFromDate($paciente->fecha_operacion)->format('Y-m-d\TH:i')}}"/>
+                            </div>
+                            <div class="form-group">
                                 {!! Form::label('tipo_paciente', 'pacientes') !!}
                                 {!! Form::text('tipo_paciente',null,['class'=>'form-control', 'required']) !!}
                             </div>

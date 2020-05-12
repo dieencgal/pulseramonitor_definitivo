@@ -8,6 +8,7 @@ use App\Paciente;
 use App\User;
 use Auth;
 
+use Carbon\Carbon;
 use ConsoleTVs\Charts\Facades\Charts;
 use Illuminate\Http\Request;
 
@@ -33,7 +34,6 @@ class Frecuencia_cardiacaController extends Controller
             $users= Paciente::all();
 
             foreach ($users as $user) {
-                // Could also be an array_push if using an array rather than a collection.
                 $cuanta = 0;
                 $cuanta = Frecuencia_cardiaca::all()->where('paciente_id', ($user->id))->where('frec_cardiaca_media','>',0)->count();
                 if ($cuanta !== 0) {
@@ -43,25 +43,15 @@ class Frecuencia_cardiacaController extends Controller
             }
             }
 
-
-
-            $pacientes = Paciente::all();
-
-
-
-
             $chart = Charts::database($data, 'bar', 'highcharts')
                 ->title("Frecuencia cardíaca media de los pacientes")
                 ->elementLabel("Frecuencia cardíaca del paciente")
                 ->dimensions(1000, 500)
                 ->labels($data1)
                 ->values($data)
-                ->responsive(true)
-
-            ;
-
+                ->responsive(true);
             return view('frecuencia_cardiacas.index', ['frecuencia_cardiacas' => $frecuencia_cardiacas,'chart'=>$chart]);
-            //abajo del todo estara comentado la otra forma de hacer index admin
+
         } else {
             $files = scandir(base_path('/resources/carpetaPacientes/pendingcontacts/' . \Illuminate\Support\Facades\Auth::user()->name . ''), SCANDIR_SORT_DESCENDING);
             $newest_file = base_path('/resources/carpetaPacientes/pendingcontacts/' . Auth::user()->name . '/' . $files[0]);
@@ -71,13 +61,7 @@ class Frecuencia_cardiacaController extends Controller
                 while (($data = fgetcsv($handle, 2000, ',')) !== FALSE) {
                     $dateExists = Frecuencia_cardiaca::where('fecha', $data[0])->where('paciente_id' , (Auth::user()->id)-1)->first();
                     if (!$dateExists) {
-
-                       /* $frecuencia_cardiacas = (Frecuencia_cardiaca::all()->where('paciente_id', ((Auth::user()->id))-1));
-                        return view ('frecuencia_cardiacas.index',['frecuencia_cardiacas' => $frecuencia_cardiacas]);*/
-
                         $csv_data = new Frecuencia_cardiaca();
-
-
                         $csv_data->fecha = $data [0];
                         if ($data [3] == '') {
                             $csv_data->frec_cardiaca_media = 0;
@@ -98,32 +82,26 @@ class Frecuencia_cardiacaController extends Controller
 
                         $csv_data->paciente_id = \Illuminate\Support\Facades\Auth::user()->id - 1;
                         $csv_data->save();
+                    }}
+                fclose($handle);}
 
-                    }
-
-                }
-                fclose($handle);
-
-            }
-
-            $frecuencia_cardiacas= Frecuencia_cardiaca::all()->where('paciente_id',(Auth::user()->id)-1)->where('frec_cardiaca_min','>',0);
+            $frecuencia_cardiacas= Frecuencia_cardiaca::all()->where('paciente_id',(Auth::user()->id)-1)->where('frec_cardiaca_min','>',0)->where('fecha','>',Carbon::now()->subDays(30)->toDateString());
 
             $chart= Charts::multi('line', 'highcharts')
                 ->responsive(true)
                 ->dimensions(0, 500)
                 ->template("material")
                 ->labels($frecuencia_cardiacas->pluck('fecha'))
-                ->title('Frecuencia cardíaca en reposo')
+                ->title('Registros de la frecuencia cardíaca en los últimos 30 días')
                 ->yAxisTitle("Pulsaciones por minuto")
+                ->dataset('Frecuencia cardíaca media máxima', $frecuencia_cardiacas->pluck('frec_cardiaca_max'))
+                ->dataset('Frecuencia cardíaca media', $frecuencia_cardiacas->pluck('frec_cardiaca_media'))
                 ->dataset('Frecuencia cardíaca media mínima', $frecuencia_cardiacas->pluck('frec_cardiaca_min'));
 
             return view('frecuencia_cardiacas.index', ['frecuencia_cardiacas' => $frecuencia_cardiacas,'chart' => $chart]);
 
         }
     }
-
-
-
     public function create(){
 
         if ((Auth::user()->hasRole('admin'))){
@@ -138,15 +116,6 @@ class Frecuencia_cardiacaController extends Controller
             return view('frecuencia_cardiacas/create', ['pacientes' => $pacientes[0]]);
         }
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-
-    //
     public function store(Request $request)
     { //'frec_cardiaca', 'tiempo_inicio','tiempo_fin','paciente_id'
         $this->validate($request, [
@@ -193,14 +162,6 @@ class Frecuencia_cardiacaController extends Controller
         return view('frecuencia_cardiacas/edit',['frecuencia_cardiaca'=> $frecuencia_cardiaca, 'pacientes'=>$pacientes ]);
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Medico  $medico
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $this->validate($request, [

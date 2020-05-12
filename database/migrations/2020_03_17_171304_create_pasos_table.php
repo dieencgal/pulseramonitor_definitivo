@@ -15,7 +15,7 @@ class CreatePasosTable extends Migration
     {
         Schema::create('pasos', function (Blueprint $table) {
             $table->increments('id');
-            $table->dateTime('fecha')->nullable();
+            $table->date('fecha')->nullable();
             $table->integer('num_pasos');
             $table->integer('distancia');
             $table->unsignedInteger('paciente_id')->nullable();

@@ -11,6 +11,7 @@
     <th>Sexo</th>
     <th>Altura</th>
     <th>Operacion</th>
+    <th>Fecha de la operacion</th>
     <th>Tipo de paciente</th>
     <th>Médico</th>
     <th colspan="2">Acciones</th>
@@ -29,6 +30,7 @@
         <td>{{ $paciente->sexo }}</td>
         <td>{{ $paciente->altura }}</td>
         <td>{{ $paciente->operacion }}</td>
+        <td>{{ $paciente->fecha_operacion }}</td>
         <td>{{ $paciente->tipo_paciente }}</td>
         <td>{{ $paciente->medico->nombre}}</td>
 

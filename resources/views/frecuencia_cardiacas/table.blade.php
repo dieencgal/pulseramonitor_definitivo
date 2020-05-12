@@ -96,17 +96,13 @@
 
                 </div>
             </div>
-
-
             <div class="panel panel-default">
                 <div class="panel-heading">Frecuencias cardíacas</div>
-
                 <div class="panel-body">
                     @include('flash::message')
                     {!! Form::open(['route' => 'frecuencia_cardiacas.create', 'method' => 'get']) !!}
                     {!!     Form::submit('Crear frecuencia cardiaca', ['class'=> 'btn btn-primary'])!!}
                     {!! Form::close() !!}
-
                     <br><br>
                     <div class="col-md-6">
                         <button type="submit" >Mostrar frecuencia cardíaca del día ...(número del día)</button>
@@ -129,10 +125,7 @@
                             <th>Paciente</th>
                             <th colspan="2">Acciones</th>
                         </tr>
-
                         @foreach ($frecuencia_cardiacas as $frecuencia_cardiaca)
-
-
                             <tr>
                                 <td>{{ $frecuencia_cardiaca->fecha}}</td>
                                 <td>{{ $frecuencia_cardiaca->frec_cardiaca_media }}</td>
@@ -148,7 +141,6 @@
                                     {!! Form::open(['route' => ['frecuencia_cardiacas.destroy',$frecuencia_cardiaca->id], 'method' => 'delete']) !!}
                                     {!!   Form::submit('Borrar', ['class'=> 'btn btn-danger' ,'onclick' => 'if(!confirm("¿Está seguro?"))event.preventDefault();'])!!}
                                     {!! Form::close() !!}
-
                                 </td>
                             </tr>
                         @endforeach

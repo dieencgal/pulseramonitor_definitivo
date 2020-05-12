@@ -237,6 +237,7 @@ class PacienteController extends Controller
             'altura' => 'required|max:255',
             'sexo' => 'required|max:255',
             'operacion' => 'required|max:255',
+            'fecha_operacion' => 'max:255',
             'tipo_paciente' => 'required|max:255',
             'medico_id' => 'required|exists:medicos,id'
     ]);
@@ -253,38 +254,59 @@ class PacienteController extends Controller
   public function comparacion()
   {
       $id=Auth::user()->id-1;
-      $pasosPaciente = Paso::where('fecha', '>', Carbon::now()->subDays(18))->where('paciente_id',$id)->get();
-      $pasosOtros= Paso::where('fecha', '>', Carbon::now()->subDays(18))->where('paciente_id','!=',$id)->get();
+      $pasosPaciente = Paso::where('fecha', '>', Carbon::now()->subDays(14))->where('paciente_id',$id)->get();
+      $pasosOtros= Paso::where('fecha', '>', Carbon::now()->subDays(14))->where('paciente_id','!=',$id)->get();
 
       $data = collect([]);
       $data1 = collect([]);
+      $fecha=collect([]);
+      $i=14;
 
-      if($pasosPaciente->count() !== 0) {
-          $data->push(($pasosPaciente->sum('num_pasos')) / $pasosPaciente->count());
-          $data1->push('Media de pasos del paciente en los últimos 18 días');
-      }else{
-          $data->push(0);
-          $data1->push('Aún no has importado datos con los pasos de los últimos 18 días');
+
+      while ($i>0){
+          $fecha->push(Carbon::now()->subDays($i)->toDateString());
+          if(Paso::where('fecha',Carbon::now()->subDays($i)->toDateString())->where('paciente_id',$id)->count()==1){
+              $data->push(Paso::where('fecha',Carbon::now()->subDays($i)->toDateString())->where('paciente_id',$id)->pluck('num_pasos'));
+              $fecha->push(Carbon::now()->subDays($i)->toDateString());
+
+          }else{
+              $data->push(0);
+
+          }
+          if(Paso::where('fecha',Carbon::now()->subDays($i)->toDateString())->where('paciente_id','!=',$id)->count()>0){
+              $data1->push((Paso::where('fecha',Carbon::now()->subDays($i)->toDateString())->where('paciente_id','!=',$id)->sum('num_pasos'))/Paso::where('fecha',Carbon::now()->subDays($i)->toDateString())->where('paciente_id','!=',$id)->count());
+
+
+          }else{
+              $data1->push(0);
+          }
+          $i=$i-1;
+
       }
-      if($pasosOtros->count() !==0){
-          $data->push(($pasosOtros->sum('num_pasos')) / $pasosOtros->count());
-          $data1->push('Media de pasos del resto de pacientes en los últimos 18 días');
-
-      }else{
-          $data->push(0);
-          $data1->push('Aún hay datos guardados del resto de pacientes pertenecientes a los últimos 18 días');
-
-      }
 
 
 
-          $chart = Charts::database($data, 'bar', 'highcharts')
+
+
+
+          /*$chart = Charts::database($data, 'bar', 'highcharts')
               ->title("Media de número de pasos en los últimos 18 días")
               ->elementLabel("Media de pasos")
               ->dimensions(1000, 500)
               ->labels($data1)
               ->values($data)
-              ->responsive(true);
+              ->responsive(true);*/
+      $chart = Charts::multi('line', 'highcharts')
+          ->title("My Cool Chart")
+          ->responsive(true)
+          ->dimensions(0, 400) // Width x Height
+          ->template("material")
+          ->dataset('Tus pasos',$data)
+          ->dataset('Media de pasos del resto de usuarios',$data1)
+          ->labels($fecha);
+
+
+
           return view('grafica',['chart'=>$chart]);
       }
 
@@ -395,33 +417,162 @@ class PacienteController extends Controller
 {
 
     $search = $request->get('search2');
+    $pac=Paciente::where('apellidos',$search)->pluck('id');
+    if($pac->count()>0) {
 
 
-    $pasos=Paso::whereDay('fecha','=',$search)->get();
+        $pasos = Paso::all()->where('paciente_id', $pac[0])->where('fecha', Carbon::now()->subDays(28)->toDateString());
 
-    return view('pasos.table', ['pasos' => $pasos]);
+        $chart = Charts::multi('line', 'highcharts')
+            ->responsive(true)
+            ->dimensions(0, 500)
+            ->template("material")
+            ->labels($pasos->pluck('fecha'))
+            ->title('Recuento de pasos del paciente ' . $search . '')
+            ->yAxisTitle("Número de pasos")
+            ->dataset('Recuento de pasos diarios', $pasos->pluck('num_pasos'));
+
+
+        return view('pasos.index', ['pasos' => $pasos, 'chart' => $chart]);
+    }else{
+        $pasos = Paso::all();
+        $data = collect([]);
+        $data1 = collect([]);// Could also be an array
+        $users= Paciente::all();
+
+        foreach ($users as $user) {
+            // Could also be an array_push if using an array rather than a collection.
+            $data->push(Paso::all()->where('paciente_id',($user->id))->where('fecha','>',Carbon::now()->subDays(28)->toDateString())->sum('num_pasos'));
+            $data1->push("".$user->apellidos.",".$user->nombre."");
+        }
+
+        $pacientes = Paciente::all();
+
+
+
+        $products = Paso::all();
+        $chart = Charts::database($data, 'bar', 'highcharts')
+            ->title("Pasos por paciente")
+            ->elementLabel("Pasos del paciente")
+            ->dimensions(1000, 500)
+            ->labels($data1)
+            ->values($data)
+            ->responsive(true)
+
+        ;
+
+        return view('pasos.index', ['pasos' => $pasos,'chart'=>$chart]);
+
+    }
 
 }
     public function search3(Request $request)
     {
 
         $search = $request->get('search3');
+        $pac=Paciente::where('apellidos',$search)->pluck('id');
 
 
-        $registro_suenos=Registro_sueno::whereDay('fecha','=',$search)->get();
+        if($pac->count()>0) {
+            $registro_suenos = Registro_sueno::all()->where('paciente_id', $pac[0])->where('horas_sueno', '>', 1)->where('fecha','>',Carbon::now()->subDays(28)->toDateString());
+            $chart = Charts::multi('line', 'highcharts')
+                ->responsive(true)
+                ->dimensions(0, 500)
+                ->template("material")
+                ->labels($registro_suenos->pluck('fecha'))
+                ->title('Horas de sueño del paciente ' . $search . '')
+                ->yAxisTitle("Horas")
+                ->dataset('Registro horas de sueño', $registro_suenos->pluck('horas_sueno'));
 
-        return view('registro_suenos.table', ['registro_suenos' => $registro_suenos]);
+
+            return view('registro_suenos.index', ['registro_suenos' => $registro_suenos, 'chart' => $chart]);
+        }else{
+            $registro_suenos = Registro_sueno::all();
+            $data = collect([]);
+
+            $data1 = collect([]);// Could also be an array
+            $users= Paciente::all();
+
+            foreach ($users as $user) {
+                // Could also be an array_push if using an array rather than a collection.
+                $cuanta = 0;
+                $cuanta = Registro_sueno::all()->where('paciente_id', ($user->id))->where('horas_sueno','>',0)->count();
+                if ($cuanta !== 0) {
+                    $data->push(Registro_sueno::all()->where('paciente_id', ($user->id))->sum('horas_sueno')/$cuanta);
+
+                    $data1->push($user->id);
+
+                }
+            }
+
+
+
+            $pacientes = Paciente::all();
+
+
+
+
+            $chart = Charts::database($data, 'bar', 'highcharts')
+                ->title("Horas de sueño media de los pacientes")
+                ->elementLabel("Horas de sueño medio del paciente")
+                ->dimensions(1000, 500)
+                ->labels($data1)
+                ->values($data)
+                ->responsive(true)
+
+            ;
+
+
+            return view('registro_suenos.index', ['registro_suenos' => $registro_suenos,'chart'=>$chart]);
+        }
 
     }
     public function search4(Request $request)
     {
 
         $search = $request->get('search4');
+        $pac=Paciente::where('apellidos',$search)->pluck('id');
+        if($pac->count()>0) {
+            $frecuencia_cardiacas=Frecuencia_cardiaca::all()->where('paciente_id', $pac[0]);
+            $frecuencia_cardiacas2 = Frecuencia_cardiaca::where('paciente_id', $pac[0])->where('frec_cardiaca_min', '>', 0)->where('fecha','>',Carbon::now()->subDays(28)->toDateString());
+            $chart = Charts::multi('line', 'highcharts')
+                ->responsive(true)
+                ->dimensions(0, 500)
+                ->template("material")
+                ->labels($frecuencia_cardiacas2->pluck('fecha'))
+                ->title('Registros de la frecuencia cardíaca en los últimos 30 días del paciente '  . $search .'')
+                ->yAxisTitle("Pulsaciones por minuto")
+                ->dataset('Frecuencia cardíaca media máxima', $frecuencia_cardiacas2->pluck('frec_cardiaca_max'))
+                ->dataset('Frecuencia cardíaca media', $frecuencia_cardiacas2->pluck('frec_cardiaca_media'))
+                ->dataset('Frecuencia cardíaca media mínima', $frecuencia_cardiacas2->pluck('frec_cardiaca_min'));
 
+            return view('frecuencia_cardiacas.index', ['frecuencia_cardiacas' => $frecuencia_cardiacas, 'chart' => $chart]);
+        }else {
+            $frecuencia_cardiacas = Frecuencia_cardiaca::all();
+            $data = collect([]);
+            $data2 = collect([]);
+            $data1 = collect([]);// Could also be an array
+            $users = Paciente::all();
 
-        $frecuencia_cardiacas=Frecuencia_cardiaca::whereDay('fecha','=',$search)->get();
+            foreach ($users as $user) {
+                $cuanta = 0;
+                $cuanta = Frecuencia_cardiaca::all()->where('paciente_id', ($user->id))->where('frec_cardiaca_media', '>', 0)->count();
+                if ($cuanta !== 0) {
+                    $data->push(Frecuencia_cardiaca::all()->where('paciente_id', ($user->id))->sum('frec_cardiaca_media') / $cuanta);
+                    $data2->push(Frecuencia_cardiaca::all()->where('paciente_id', ($user->id))->max());
+                    $data1->push($user->id);
+                }
+            }
 
-        return view('frecuencia_cardiacas.table', ['frecuencia_cardiacas' => $frecuencia_cardiacas]);
+            $chart = Charts::database($data, 'bar', 'highcharts')
+                ->title("Frecuencia cardíaca media de los pacientes")
+                ->elementLabel("Frecuencia cardíaca del paciente")
+                ->dimensions(1000, 500)
+                ->labels($data1)
+                ->values($data)
+                ->responsive(true);
+            return view('frecuencia_cardiacas.index', ['frecuencia_cardiacas' => $frecuencia_cardiacas, 'chart' => $chart]);
+        }
 
     }
 
@@ -620,6 +771,7 @@ class PacienteController extends Controller
             'altura' => 'required|max:255',
             'sexo' => 'required|max:255',
             'operacion' => 'required|max:255',
+            'fecha_operacion'=> 'required|max:255',
             'tipo_paciente' => 'required|max:255',
             'medico_id' => 'required|exists:medicos,id'
         ]);

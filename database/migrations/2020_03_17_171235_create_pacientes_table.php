@@ -7,11 +7,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreatePacientesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('pacientes', function (Blueprint $table) {
@@ -23,23 +18,15 @@ class CreatePacientesTable extends Migration
             $table->enum('sexo', ['hombre', 'mujer']);
             $table->integer('altura');
             $table->string('operacion');
-            $table->enum('tipo_paciente', ['sano', 'enfermo_antes','enfermo_despues']);
+            $table->dateTime("fecha_operacion")->nullable();
+            $table->enum('tipo_paciente', ['sano', 'enfermo']);
             $table->unsignedInteger('medico_id')->nullable();
             $table->timestamps();
             $table->foreign('medico_id')->references('id')->on('medicos');
-
-
             $table->softDeletes();
-
 
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('pacientes');

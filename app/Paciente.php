@@ -10,13 +10,7 @@ class Paciente extends  Model
 {
 
     use SoftDeletes;
-    protected $fillable = ['nombre', 'apellidos', 'edad','peso', 'sexo','altura', 'operacion','tipo_paciente','medico_id'];
-    /*operacion significa que tipo de operación ha sufrido, puede ser = ninguna*/
-    /*tippaciente será sano o enfermo, se puede filtrar un paciente enfermo antes y despues de la operación mirando en
-    operacion cuando padecia ninguna hasta la operacion*/
-
-    //
-
+    protected $fillable = ['nombre', 'apellidos', 'edad','peso', 'sexo','altura', 'operacion','fecha_operacion','tipo_paciente','medico_id'];
     public function medico()
     {
         return $this->hasOne('App\Medico', 'id', 'medico_id');

@@ -153,11 +153,12 @@
                         {!! Form::close() !!}
 
                         <br><br>
+                        @if ((Auth::user()->hasRole('admin')))
                         <div class="col-md-6">
-                            <button type="submit" >Mostrar pasos realizados el día (número del día)</button>
+                            <button type="submit" >Búsque por apellido del paciente la gráfica de pasos que desee ver</button>
                             <form action="/search2"  method="get">
                                 <div class="form-group">
-                                    <input type="search2" name="search2" class="form-control" placeholder="Ej 10">
+                                    <input type="search2" name="search2" class="form-control" placeholder="Ej García Calvo">
                                     <span class="input-group-prepend">
 
                                     </span>
@@ -165,6 +166,7 @@
                                 </div>
                             </form>
                         </div>
+                        @endif
 
 
 

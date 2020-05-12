@@ -90,11 +90,8 @@
         <div class="row">
             <div class="col-lg-12">
                 <div id="myDiv">
-
                 </div>
             </div>
-
-
             <div class="panel panel-default">
                 <div class="panel-heading">Frecuencias cardíacas</div>
         @if ((Auth::user()->hasRole('admin')))
@@ -130,7 +127,7 @@
         </head>
         <body>
         <div class="container">
-            <h1 style="text-align: center;">Frecuencia cardiaca media en reposo</h1>
+            <h1 style="text-align: center;"></h1>
             <br>
             {!! $chart->html() !!}
         </div>
@@ -140,27 +137,24 @@
         </body>
         </html>
         @endif
-
-
-                    <div class="panel-body">
+                <div class="panel-body">
                         @include('flash::message')
                         {!! Form::open(['route' => 'frecuencia_cardiacas.create', 'method' => 'get']) !!}
                         {!!     Form::submit('Crear frecuencia cardiaca', ['class'=> 'btn btn-primary'])!!}
                         {!! Form::close() !!}
+                    @if ((Auth::user()->hasRole('admin')))
 
                         <br><br>
                         <div class="col-md-6">
-                            <button type="submit" >Mostrar frecuencia cardíaca del día ...(número del día)</button>
+                            <button type="submit" >Búsque por apellido del paciente la gráfica de las frecuencias cardíacas que desee ver</button>
                             <form action="/search4"  method="get">
                                 <div class="form-group">
-                                    <input type="search4" name="search4" class="form-control" placeholder="Ej 10">
-                                    <span class="input-group-prepend">
-
-                                    </span>
-
+                                    <input type="search4" name="search4" class="form-control" placeholder="Ej García Calvo">
+                                    <span class="input-group-prepend"></span>
                                 </div>
                             </form>
                         </div>
+                    @endif
                         <table class="table table-striped table-bordered">
                             <tr>
                                 <th>Fecha</th>
@@ -170,10 +164,7 @@
                                 <th>Paciente</th>
                                 <th colspan="2">Acciones</th>
                             </tr>
-
                             @foreach ($frecuencia_cardiacas as $frecuencia_cardiaca)
-
-
                                 <tr>
                                     <td>{{ $frecuencia_cardiaca->fecha}}</td>
                                     <td>{{ $frecuencia_cardiaca->frec_cardiaca_media }}</td>
@@ -189,7 +180,6 @@
                                         {!! Form::open(['route' => ['frecuencia_cardiacas.destroy',$frecuencia_cardiaca->id], 'method' => 'delete']) !!}
                                         {!!   Form::submit('Borrar', ['class'=> 'btn btn-danger' ,'onclick' => 'if(!confirm("¿Está seguro?"))event.preventDefault();'])!!}
                                         {!! Form::close() !!}
-
                                     </td>
                                 </tr>
                             @endforeach
