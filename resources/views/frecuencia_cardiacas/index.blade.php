@@ -145,7 +145,7 @@
                     @if ((Auth::user()->hasRole('admin')))
 
                         <br><br>
-                        <div class="col-md-6">
+                        <div class="col-md-10">
                             <button type="submit" >Búsque por apellido del paciente la gráfica de las frecuencias cardíacas que desee ver</button>
                             <form action="/search4"  method="get">
                                 <div class="form-group">

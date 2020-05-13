@@ -106,7 +106,7 @@
                             <ul class="dropdown-menu" role="menu">
                                 <li>
                                     <a href="{{ url('/pacientes') }}">
-                                        Datos del paciente
+                                       Mis datos
                                     </a>
                                 </li>
                                 <li>
@@ -126,13 +126,13 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ url('/intermedio') }}">
-                                        Comparaciones
+                                    <a href="{{ url('/grafica2') }}">
+                                        Gráficas comparativas
                                     </a>
                                 </li>
                                 <li>
                                     <a href="{{ url('/videosindex') }}">
-                                        Guía de ejercicios
+                                        Guía de ejercicios recomendados
                                     </a>
                                 </li>
 
@@ -141,7 +141,7 @@
                                     <a href="{{ url('/logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        Logout
+                                        Cerrar sesión
                                     </a>
 
                                     <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">

@@ -22,7 +22,7 @@ use Auth;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
-
+use mysql_xdevapi\Collection;
 
 
 class PacienteController extends Controller
@@ -254,48 +254,26 @@ class PacienteController extends Controller
   public function comparacion()
   {
       $id=Auth::user()->id-1;
-      $pasosPaciente = Paso::where('fecha', '>', Carbon::now()->subDays(14))->where('paciente_id',$id)->get();
-      $pasosOtros= Paso::where('fecha', '>', Carbon::now()->subDays(14))->where('paciente_id','!=',$id)->get();
-
       $data = collect([]);
       $data1 = collect([]);
       $fecha=collect([]);
       $i=14;
-
-
       while ($i>0){
           $fecha->push(Carbon::now()->subDays($i)->toDateString());
           if(Paso::where('fecha',Carbon::now()->subDays($i)->toDateString())->where('paciente_id',$id)->count()==1){
               $data->push(Paso::where('fecha',Carbon::now()->subDays($i)->toDateString())->where('paciente_id',$id)->pluck('num_pasos'));
               $fecha->push(Carbon::now()->subDays($i)->toDateString());
-
           }else{
               $data->push(0);
-
           }
           if(Paso::where('fecha',Carbon::now()->subDays($i)->toDateString())->where('paciente_id','!=',$id)->count()>0){
               $data1->push((Paso::where('fecha',Carbon::now()->subDays($i)->toDateString())->where('paciente_id','!=',$id)->sum('num_pasos'))/Paso::where('fecha',Carbon::now()->subDays($i)->toDateString())->where('paciente_id','!=',$id)->count());
-
-
           }else{
               $data1->push(0);
           }
           $i=$i-1;
-
       }
 
-
-
-
-
-
-          /*$chart = Charts::database($data, 'bar', 'highcharts')
-              ->title("Media de número de pasos en los últimos 18 días")
-              ->elementLabel("Media de pasos")
-              ->dimensions(1000, 500)
-              ->labels($data1)
-              ->values($data)
-              ->responsive(true);*/
       $chart = Charts::multi('line', 'highcharts')
           ->title("My Cool Chart")
           ->responsive(true)
@@ -316,78 +294,193 @@ class PacienteController extends Controller
         $id= Auth::user()->id -1;
 
 
-        if(Paciente::where('id',$id)->where('tipo_paciente','enfermo_despues')->count()==1){
+        if(Paciente::where('id',$id)->where('tipo_paciente','enfermo')->count()==1){
+
+            $pax=Paciente::where('id',$id);
+            $fex=substr(($pax->pluck('fecha_operacion'))[0],0,10);
+
+            $antes=Paso::all()->where('paciente_id',$id)->where('fecha','<',$fex)->where('fecha','>',date("Y-m-d", strtotime('-14 day ' , strtotime($fex))));
+            $despues=Paso::all()->where('paciente_id',$id)->where('fecha','>=',$fex)->where('fecha','<',date("Y-m-d", strtotime('+14 day ' , strtotime($fex))));
+
+
+            $antes2=Frecuencia_cardiaca::all()->where('paciente_id',$id)->where('fecha','<',$fex)->where('fecha','>',date("Y-m-d", strtotime('-14 day ' , strtotime($fex))))->where('frec_cardiaca_min','>',0);
+            $despues2=Frecuencia_cardiaca::all()->where('paciente_id',$id)->where('fecha','>=',$fex)->where('fecha','<',date("Y-m-d", strtotime('+14 day ' , strtotime($fex))))->where('frec_cardiaca_min','>',0);
+
+
+            $antes3=Registro_sueno::all()->where('paciente_id',$id)->where('fecha','<',$fex)->where('fecha','>',date("Y-m-d", strtotime('-14 day ' , strtotime($fex))))->where('horas_sueno','>',1);
+            $despues3=Registro_sueno::all()->where('paciente_id',$id)->where('fecha','>=',$fex)->where('fecha','<',date("Y-m-d", strtotime('+14 day ' , strtotime($fex))))->where('horas_sueno','>',1);
+
+
+            $id=Auth::user()->id-1;
             $data = collect([]);
             $data1 = collect([]);
-            $a=Carbon::createFromTimeString((Paciente::where('id',$id)->pluck('updated_at'))[0])->toDate();
-            $o=(Paciente::where('id',$id)->pluck('updated_at'))[0]->toDateTimeString();
+            $data12 = collect([]);
+            $fecha=collect([]);
+            $i=14;
+            while ($i>0){
+                $fecha->push(Carbon::now()->subDays($i)->toDateString());
+                if(Paso::where('fecha',Carbon::now()->subDays($i)->toDateString())->where('paciente_id',$id)->count()==1){
+                    $data->push(Paso::where('fecha',Carbon::now()->subDays($i)->toDateString())->where('paciente_id',$id)->pluck('num_pasos'));
+                    $fecha->push(Carbon::now()->subDays($i)->toDateString());
+                }else{
+                    $data->push(0);
+                }
+                if(Paso::where('fecha',Carbon::now()->subDays($i)->toDateString())->where('paciente_id','!=',$id)->count()>0){
+                    $data1->push((Paso::where('fecha',Carbon::now()->subDays($i)->toDateString())->where('paciente_id','!=',$id)->sum('num_pasos'))/Paso::where('fecha',Carbon::now()->subDays($i)->toDateString())->where('paciente_id','!=',$id)->count());
+                }else{
+                    $data1->push(0);
+                }
 
-            $cuenta=Paso::all()->where('paciente_id',$id)->where('fecha','>',$o)->count();
-            $cuenta2=Paso::all()->where('paciente_id',$id)->where('fecha','<',$o)->count();
-            $num_pasos=Paso::all()->where('paciente_id',$id)->where('fecha','>',$o)->sum('num_pasos');
-            $num_pasos2=Paso::all()->where('paciente_id',$id)->where('fecha','<',$o)->sum('num_pasos');
 
-
-
-
-            if($cuenta ==0 && $cuenta2==0){
-                $data->push('No hay datos');
-                $data1->push('No hay datos');
-            }elseif ($cuenta==0){
-                $data->push($num_pasos2/$cuenta2);
-                $data->push('No hay datos después de la operacion');
-                $data1->push('Media de pasos antes de la operacion');
-                $data1->push('Media de pasos después de la operacion');
-            }elseif($cuenta2==0){
-
-                $data->push('No hay datos antes de la operacion');
-                $data->push($num_pasos/$cuenta);
-                $data1->push('Media de pasos antes de la operacion');
-                $data1->push('Media de pasos después de la operacion');
-
-            }else{
-                $data->push($num_pasos2/$cuenta2);
-                $data->push($num_pasos/$cuenta);
-                $data1->push('Media de pasos antes de la operacion');
-                $data1->push('Media de pasos después de la operacion');
-
+                $i=$i-1;
             }
-            $ante=Paso::all()->where('paciente_id',$id);
-            $ante2=Paso::all()->where('paciente_id',$id)->where('fecha','<',$o);
+            /*$pa= Paciente::all()->where('tipo_paciente','sano');
 
+            foreach($pa as $p){
+                $pas=Paso::all()->where('paciente_id',2)->where('fecha','>',Carbon::now()->subDays(14)->toDateString())->where('fecha','<',Carbon::now()->toDateString());
+                $pas->where('fecha..')-<sum()
+            }
+            dd($pas);*/
+
+            $char = Charts::multi('line', 'highcharts')
+                ->title("Comparación de pasos frente al resto de pacientes")
+                ->responsive(true)
+                ->dimensions(0, 400) // Width x Height
+                ->template("material")
+                ->yAxisTitle("Recuento de pasos")
+                ->dataset('Tus pasos',$data)
+                ->dataset('Media de pasos del resto de usuarios',$data1)
+                ->labels($fecha);
+
+            $chart3= Charts::multi('line', 'highcharts')
+                ->responsive(true)
+                ->dimensions(0, 500)
+                ->template("material")
+                ->labels(['1','2','3','4','5','6','7','8','9','10','11','12','13','14'])
+                ->Title('Registros del sueño antes y después de la operación ('.$fex.')')
+                ->yAxisTitle("Horas")
+                ->dataset('Horas de sueño 14 días antes de la operación',$antes3->pluck('horas_sueno'))
+                ->dataset('Horas de sueño 14 días después de la operación',$despues3->pluck('horas_sueno'));
+
+            $chart2= Charts::multi('line', 'highcharts')
+                ->responsive(true)
+                ->dimensions(0, 500)
+                ->template("material")
+                ->labels(['1','2','3','4','5','6','7','8','9','10','11','12','13','14'])
+                ->Title('Registros de la frecuencia antes y después de la operación ('.$fex.')')
+                ->yAxisTitle("Pulsaciones por minuto")
+                ->dataset('Frecuencia cardíaca en reposo 14 días antes de la operación',$antes2->pluck('frec_cardiaca_min'))
+                ->dataset('Frecuencia cardíaca en reposo 14 días después de la operación',$despues2->pluck('frec_cardiaca_min'))
+                ->dataset('Frecuencia cardíaca media 14 días antes de la operación',$antes2->pluck('frec_cardiaca_media'))
+                ->dataset('Frecuencia cardíaca media 14 días después de la operación',$despues2->pluck('frec_cardiaca_media'))
+                ->colors(['#FF0000','#FFFF00','#FF0000','#FFFF00']);
 
           $chart= Charts::multi('line', 'highcharts')
                 ->responsive(true)
                 ->dimensions(0, 500)
                 ->template("material")
-                ->labels($ante->pluck('fecha'))
-                ->title('Media de horas de sueño')
-                ->yAxisTitle("Horas")
-                ->dataset('Registro de horas de sueño', $ante->pluck('distancia'))
-            ->dataset('Registro de horas de sueño', $ante->pluck('num_pasos'));
+                ->labels(['1','2','3','4','5','6','7','8','9','10','11','12','13','14'])
+                ->Title('Pasos antes y después de la operación ('.$fex.')')
+                ->yAxisTitle("Recuento de pasos")
+                ->dataset('Pasos 14 días antes de la operación',$antes->pluck('num_pasos'))
+                ->dataset('Pasos 14 días después de la operación',$despues->pluck('num_pasos'));
+            $e= basedatos::all()->where('paciente_id',Auth::user()->id-1)->where('recuento_min_activos','>',10);
 
-           /* $chart = Charts::database($data, 'bar', 'highcharts')
-                ->title("Media de número de pasos antes y después de la operación")
-                ->elementLabel("Media de pasos")
+            $usersChart = Charts::database($e->pluck('recuento_min_activos'), 'bar', 'highcharts')
+                ->title("Recuento de minutos activos")
+                ->elementLabel("Minutos activos")
                 ->dimensions(1000, 500)
-                ->labels($data1)
-                ->values($data)
-                ->responsive(true);*/
-            return view('grafica2',['chart'=>$chart]);
+                ->yAxisTitle("Minutos")
+                ->labels($e->pluck('fecha'))
+                ->values($e->pluck('recuento_min_activos'))
+                ->colors(['#FF0000'])
+                ->responsive(true);
+
+
+
+
+            return view('grafica2',['chart'=>$chart,'chart2'=>$chart2,'chart3'=>$chart3,'char'=>$char,'usersChart'=>$usersChart]);
 
         }else{
+            $id=Auth::user()->id-1;
             $data = collect([]);
             $data1 = collect([]);
-            $data->push(0);
-            $data1->push('No se puede mostrar la comparativa antes y despúes de la operación si no hay datos después de la operación');
-            $chart = Charts::database($data, 'bar', 'highcharts')
+            $fecha=collect([]);
+            $i=14;
+            $e= basedatos::all()->where('paciente_id',Auth::user()->id-1)->where('recuento_min_activos','>',10);
+
+            $usersChart = Charts::database($e->pluck('recuento_min_activos'), 'bar', 'highcharts')
+                ->title("Recuento de minutos activos")
+                ->elementLabel("Minutos activos")
+                ->dimensions(1000, 500)
+                ->yAxisTitle("Minutos")
+                ->labels($e->pluck('fecha'))
+                ->values($e->pluck('recuento_min_activos'))
+                ->colors(['#FF0000'])
+                ->responsive(true);
+
+
+
+            while ($i>0){
+                $fecha->push(Carbon::now()->subDays($i)->toDateString());
+                if(Paso::where('fecha',Carbon::now()->subDays($i)->toDateString())->where('paciente_id',$id)->count()==1){
+                    $data->push(Paso::where('fecha',Carbon::now()->subDays($i)->toDateString())->where('paciente_id',$id)->pluck('num_pasos'));
+                    $fecha->push(Carbon::now()->subDays($i)->toDateString());
+                }else{
+                    $data->push(0);
+                }
+                if(Paso::where('fecha',Carbon::now()->subDays($i)->toDateString())->where('paciente_id','!=',$id)->count()>0){
+                    $data1->push((Paso::where('fecha',Carbon::now()->subDays($i)->toDateString())->where('paciente_id','!=',$id)->sum('num_pasos'))/Paso::where('fecha',Carbon::now()->subDays($i)->toDateString())->where('paciente_id','!=',$id)->count());
+                }else{
+                    $data1->push(0);
+                }
+                $i=$i-1;
+            }
+
+            $char = Charts::multi('line', 'highcharts')
+                ->title("Comparación de pasos frente al resto de pacientes")
+                ->responsive(true)
+                ->dimensions(0, 400) // Width x Height
+                ->template("material")
+                ->yAxisTitle("Recuento de pasos")
+                ->dataset('Tus pasos',$data)
+                ->dataset('Media de pasos del resto de usuarios',$data1)
+                ->labels($fecha);
+            $dat = collect([]);
+            $dat1 = collect([]);
+            $dat->push(0);
+            $dat1->push('No hay datos antes y después de la operación');
+            $chart = Charts::database($dat, 'bar', 'highcharts')
                 ->title("Media de número de pasos antes y despues de la operación")
                 ->elementLabel("Media de pasos")
                 ->dimensions(1000, 500)
-                ->labels($data1)
-                ->values($data)
+                ->labels($dat1)
+                ->values($dat)
                 ->responsive(true);
-          return view('grafica2',['chart'=>$chart]);
+            $da = collect([]);
+            $da1 = collect([]);
+            $da->push(0);
+            $da1->push('No se puede mostrar la comparativa antes y despúes de la operación si no hay datos después de la operación');
+            $chart2 = Charts::database($da, 'bar', 'highcharts')
+                ->title("Frecuencia cardiaca media antes y después de la operación")
+                ->elementLabel("Frecuencia cardiaca media")
+                ->dimensions(1000, 500)
+                ->labels($da1)
+                ->values($da)
+                ->responsive(true);
+            $ata = collect([]);
+            $ata1 = collect([]);
+            $ata->push(0);
+            $ata1->push('No se puede mostrar la comparativa antes y despúes de la operación si no hay datos después de la operación');
+            $chart3 = Charts::database($ata, 'bar', 'highcharts')
+                ->title("Media de horas de sueño antes y después de la operación")
+                ->elementLabel("Media de horas de sueño ")
+                ->dimensions(1000, 500)
+                ->labels($ata1)
+                ->values($ata)
+                ->responsive(true);
+
+            return view('grafica2',['chart'=>$chart,'chart2'=>$chart2,'chart3'=>$chart3,'char'=>$char,'usersChart'=>$usersChart]);
       }
 
 
@@ -584,65 +677,46 @@ class PacienteController extends Controller
         $id= Auth::user()->id -1;
 
 
-        if(Paciente::where('id',$id)->where('tipo_paciente','enfermo_despues')->count()==1){
-            $data = collect([]);
-            $data1 = collect([]);
-            $a=Carbon::createFromTimeString((Paciente::where('id',$id)->pluck('updated_at'))[0])->toDate();
-            $o=(Paciente::where('id',$id)->pluck('updated_at'))[0]->toDateTimeString();
+        if(Paciente::where('id',$id)->where('tipo_paciente','enfermo')->count()==1){
 
-            $cuenta=Frecuencia_cardiaca::all()->where('paciente_id',$id)->where('fecha','>',$o)->where('frec_cardiaca_media','>',0)->count();
-            $cuenta2=Frecuencia_cardiaca::all()->where('paciente_id',$id)->where('fecha','<',$o)->where('frec_cardiaca_media','>',0)->count();
-            $num_pasos=Frecuencia_cardiaca::all()->where('paciente_id',$id)->where('fecha','>',$o)->where('frec_cardiaca_media','>',0)->sum('frec_cardiaca_media');
-            $num_pasos2=Frecuencia_cardiaca::all()->where('paciente_id',$id)->where('fecha','<',$o)->where('frec_cardiaca_media','>',0)->sum('frec_cardiaca_media');
+            $pax=Paciente::where('id',$id);
+            $fex=substr(($pax->pluck('fecha_operacion'))[0],0,10);
+
+            $antes=Frecuencia_cardiaca::all()->where('paciente_id',$id)->where('fecha','<',$fex)->where('fecha','>',date("Y-m-d", strtotime('-14 day ' , strtotime($fex))))->where('frec_cardiaca_min','>',0);
+            $despues=Frecuencia_cardiaca::all()->where('paciente_id',$id)->where('fecha','>=',$fex)->where('fecha','<',date("Y-m-d", strtotime('+14 day ' , strtotime($fex))))->where('frec_cardiaca_min','>',0);
 
 
 
 
-            if($cuenta ==0 && $cuenta2==0){
-                $data->push(0);
-                $data1->push('No hay datos');
-            }elseif ($cuenta==0){
-                $data->push($num_pasos2/$cuenta2);
-                $data->push(0);
-                $data1->push('Frecuencia cardiaca media antes de la operacion');
-                $data1->push('Frecuencia cardiaca después de la operacion');
-            }elseif($cuenta2==0){
-
-                $data->push(0);
-                $data->push($num_pasos/$cuenta);
-                $data1->push('Frecuencia cardiaca media antes de la operacion');
-                $data1->push('Frecuencia cardiaca después de la operacion');
-
-            }else{
-                $data->push($num_pasos2/$cuenta2);
-                $data->push($num_pasos/$cuenta);
-                $data1->push('Frecuencia cardiaca media antes de la operacion');
-                $data1->push('Frecuencia cardiaca después de la operacion');
-
-            }
+            $chart= Charts::multi('line', 'highcharts')
+                ->responsive(true)
+                ->dimensions(0, 500)
+                ->template("material")
+                ->labels(['1','2','3','4','5','6','7','8','9','10','11','12','13','14'])
+                ->Title('Registros de la frecuencia antes y después de la operación ('.$fex.')')
+                ->yAxisTitle("Pulsaciones por minuto")
+                ->dataset('Frecuencia cardíaca en reposo 14 días antes de la operación',$antes->pluck('frec_cardiaca_min'))
+                ->dataset('Frecuencia cardíaca en reposo 14 días después de la operación',$despues->pluck('frec_cardiaca_min'))
+                ->dataset('Frecuencia cardíaca media 14 días antes de la operación',$antes->pluck('frec_cardiaca_media'))
+                ->dataset('Frecuencia cardíaca media 14 días después de la operación',$despues->pluck('frec_cardiaca_media'))
+                ->colors(['#FF0000','#FFFF00','#FF0000','#FFFF00']);
 
 
 
-            $chart = Charts::database($data, 'bar', 'highcharts')
-                ->title("Frecuencia cardiaca media antes y después de la operación")
-                ->elementLabel("Frecuencia cardiaca media")
-                ->dimensions(1000, 500)
-                ->labels($data1)
-                ->values($data)
-                ->responsive(true);
+
             return view('grafica3',['chart'=>$chart]);
 
         }else{
-            $data = collect([]);
-            $data1 = collect([]);
-            $data->push(0);
-            $data1->push('No se puede mostrar la comparativa antes y despúes de la operación si no hay datos después de la operación');
-            $chart = Charts::database($data, 'bar', 'highcharts')
+            $da = collect([]);
+            $da1 = collect([]);
+            $da->push(0);
+            $da1->push('No se puede mostrar la comparativa antes y despúes de la operación si no hay datos después de la operación');
+            $chart = Charts::database($da, 'bar', 'highcharts')
                 ->title("Frecuencia cardiaca media antes y después de la operación")
                 ->elementLabel("Frecuencia cardiaca media")
                 ->dimensions(1000, 500)
-                ->labels($data1)
-                ->values($data)
+                ->labels($da1)
+                ->values($da)
                 ->responsive(true);
             return view('grafica3',['chart'=>$chart]);
 
@@ -653,68 +727,44 @@ class PacienteController extends Controller
 
     }
     public function comparacion4(){
-
         $id= Auth::user()->id -1;
 
 
-        if(Paciente::where('id',$id)->where('tipo_paciente','enfermo_despues')->count()==1){
-            $data = collect([]);
-            $data1 = collect([]);
-            $a=Carbon::createFromTimeString((Paciente::where('id',$id)->pluck('updated_at'))[0])->toDate();
-            $o=(Paciente::where('id',$id)->pluck('updated_at'))[0]->toDateTimeString();
+        if(Paciente::where('id',$id)->where('tipo_paciente','enfermo')->count()==1){
 
-            $cuenta=Registro_sueno::all()->where('paciente_id',$id)->where('fecha','>',$o)->where('hosubras_sueno','>',0)->count();
-            $cuenta2=Registro_sueno::all()->where('paciente_id',$id)->where('fecha','<',$o)->where('horas_sueno','>',0)->count();
-            $num_pasos=Registro_sueno::all()->where('paciente_id',$id)->where('fecha','>',$o)->where('horas_sueno','>',0)->sum('horas_sueno');
-            $num_pasos2=Registro_sueno::all()->where('paciente_id',$id)->where('fecha','<',$o)->where('horas_sueno','>',0)->sum('horas_sueno');
+            $pax=Paciente::where('id',$id);
+            $fex=substr(($pax->pluck('fecha_operacion'))[0],0,10);
+
+            $antes=Registro_sueno::all()->where('paciente_id',$id)->where('fecha','<',$fex)->where('fecha','>',date("Y-m-d", strtotime('-14 day ' , strtotime($fex))))->where('horas_sueno','>',1);
+            $despues=Registro_sueno::all()->where('paciente_id',$id)->where('fecha','>=',$fex)->where('fecha','<',date("Y-m-d", strtotime('+14 day ' , strtotime($fex))))->where('horas_sueno','>',1);
 
 
 
-            if($cuenta ==0 && $cuenta2==0){
-                $data->push(0);
-                $data1->push('No hay datos');
-            }elseif ($cuenta==0){
-                $data->push($num_pasos2/$cuenta2);
-                $data->push(0);
-                $data1->push('Media de horas de sueño antes de la operacion');
-                $data1->push('Media de horas de sueño  después de la operacion');
-            }elseif($cuenta2==0){
 
-                $data->push(0);
-                $data->push($num_pasos/$cuenta);
-                $data1->push('Media de horas de sueño antes de la operacion');
-                $data1->push('Media de horas de sueño después de la operacion');
-
-            }else{
-                $data->push($num_pasos2/$cuenta2);
-                $data->push($num_pasos/$cuenta);
-                $data1->push('Media de horas de sueño antes de la operacion');
-                $data1->push('Media de horas de sueño de la operacion');
-
-            }
+            $chart= Charts::multi('line', 'highcharts')
+                ->responsive(true)
+                ->dimensions(0, 500)
+                ->template("material")
+                ->labels(['1','2','3','4','5','6','7','8','9','10','11','12','13','14'])
+                ->Title('Registros del sueño antes y después de la operación ('.$fex.')')
+                ->yAxisTitle("Horas")
+                ->dataset('Horas de sueño 14 días antes de la operación',$antes->pluck('horas_sueno'))
+                ->dataset('Horas de sueño 14 días después de la operación',$despues->pluck('horas_sueno'));
 
 
-
-            $chart = Charts::database($data, 'bar', 'highcharts')
-                ->title("Media de horas de sueño antes y después de la operación")
-                ->elementLabel("Media de horas de sueño ")
-                ->dimensions(1000, 500)
-                ->labels($data1)
-                ->values($data)
-                ->responsive(true);
             return view('grafica4',['chart'=>$chart]);
 
         }else{
-            $data = collect([]);
-            $data1 = collect([]);
-            $data->push(0);
-            $data1->push('No se puede mostrar la comparativa antes y despúes de la operación si no hay datos después de la operación');
-            $chart = Charts::database($data, 'bar', 'highcharts')
+            $ata = collect([]);
+            $ata1 = collect([]);
+            $ata->push(0);
+            $ata1->push('No se puede mostrar la comparativa antes y despúes de la operación si no hay datos después de la operación');
+            $chart = Charts::database($ata, 'bar', 'highcharts')
                 ->title("Media de horas de sueño antes y después de la operación")
                 ->elementLabel("Media de horas de sueño ")
                 ->dimensions(1000, 500)
-                ->labels($data1)
-                ->values($data)
+                ->labels($ata1)
+                ->values($ata)
                 ->responsive(true);
             return view('grafica4',['chart'=>$chart]);
 

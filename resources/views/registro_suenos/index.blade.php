@@ -157,7 +157,7 @@
 
                         <br><br>
                         @if ((Auth::user()->hasRole('admin')))
-                        <div class="col-md-8">
+                        <div class="col-md-10">
                             <button type="submit" >Búsque por apellido del paciente la gráfica del registro de sueño que desee ver</button>
                             <form action="/search3"  method="get">
                                 <div class="form-group">

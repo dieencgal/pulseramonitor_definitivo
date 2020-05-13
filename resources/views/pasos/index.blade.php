@@ -154,7 +154,7 @@
 
                         <br><br>
                         @if ((Auth::user()->hasRole('admin')))
-                        <div class="col-md-6">
+                        <div class="col-md-10">
                             <button type="submit" >Búsque por apellido del paciente la gráfica de pasos que desee ver</button>
                             <form action="/search2"  method="get">
                                 <div class="form-group">
