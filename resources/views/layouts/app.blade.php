@@ -86,6 +86,16 @@
                                         </a>
                                     </li>
                                     <li>
+                                        <a href="{{ url('/encuesta') }}">
+                                            Cuestionario
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url('/respuesta') }}">
+                                            resp
+                                        </a>
+                                    </li>
+                                    <li>
                                         <a href="{{ url('/logout') }}"
                                            onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -105,10 +115,11 @@
                                 </a>
                             <ul class="dropdown-menu" role="menu">
                                 <li>
-                                    <a href="{{ url('/pacientes') }}">
-                                       Mis datos
+                                    <a href="{{ url('/creat') }}">
+                                        Mis datos
                                     </a>
                                 </li>
+
                                 <li>
                                     <a href="{{ url('/pasos') }}">
                                         Pasos

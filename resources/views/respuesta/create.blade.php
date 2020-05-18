@@ -90,38 +90,33 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Crear pasos</div>
+                    <div class="panel-heading">Responder</div>
 
                     <div class="panel-body">
                         @include('flash::message')
-                        {!! Form::open(['route' => 'pasos.store']) !!}
-                    </div>
-                    <div class="form-group">
-                        {!! Form::label('Fecha', 'Fecha y hora') !!}
+                        {!! Form::open(['route' => 'respuesta.store']) !!}
 
+                        <div class="form-group">
+                            {!! Form::label('respuesta', 'Responder') !!}
+                            {!! Form::text('respuesta',null,['class'=>'form-control', 'required','autofocus']) !!}
+                        </div>
+                        <div class="form-group">
+                            {!!Form::label('pregunta_id', 'Pregunta') !!}
 
-                        <input type="datetime-local" id="fecha" name="fecha" class="form-control" value="{{Carbon\Carbon::now()->timezone('Europe/Madrid')->format('Y-m-d\Th:i')}}" />
-                    </div>
-                    <div class="form-group">
-                        {!! Form::label('distancia', 'Distancia') !!}
-                        {!! Form::text('distancia',null,['class'=>'form-control', 'required','autofocus']) !!}
-                    </div>
-                    <div class="form-group">
-                        {!! Form::label('num_pasos', 'Recuento de pasos') !!}
-                        {!! Form::text('num_pasos',null,['class'=>'form-control', 'required','autofocus']) !!}
-                    </div>
+                            {!! Form::select('pregunta_id', $preguntas, ['class' => 'form-control']) !!}
+                        </div>
 
                         <div class="form-group">
                             {!!Form::label('paciente_id', 'Paciente') !!}
 
-                            {!! Form::text('paciente_id', null, ['class' => 'form-control','required','autofocus']) !!}
+                            {!! Form::select('paciente_id', $pacientes, ['class' => 'form-control']) !!}
                         </div>
 
 
                         {!! Form::submit('Guardar',['class'=>'btn-primary btn']) !!}
 
                         {!! Form::close() !!}
-
+                    </div>
                 </div>
             </div>
         </div>

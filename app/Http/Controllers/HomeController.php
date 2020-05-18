@@ -65,6 +65,8 @@ class HomeController extends Controller
                 $vor="";
                 $usuario= User::all()->where('id','>',1);
                 foreach ($usuario as $user){
+
+                    if(File::exists(base_path('/resources/carpetaPacientes/pendingcontacts/'.Auth::user()->name)) == true){
                 $files = scandir(base_path('/resources/carpetaPacientes/pendingcontacts/' . $user->name . ''), SCANDIR_SORT_DESCENDING);
 
                 if(Carbon::now()->subDays(14) >= (date('Y-m-d',strtotime(substr($files[0], 0, 8))))){
@@ -90,7 +92,7 @@ class HomeController extends Controller
                         }
                     }
 
-                }
+                }}
 
                 return view('home',['pacientes'=>$pacientes,'var'=>$var,'vor'=>$vor]);
             }

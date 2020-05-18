@@ -65,6 +65,15 @@
                 margin-bottom: 30px;
 
             }
+            .box img {
+                display:compact;
+                margin: fill;
+                horiz-align: center;
+                vertical-align: center;
+                height: 550px;
+                width: 690px;
+
+            }
         </style>
     </head>
     <body>
@@ -86,10 +95,18 @@
                      Monitoreo de pulsera
                 </div>
 
+
                 <div class="links">
                     <a href="https://www.hospitaluvrocio.es/">Hospital Virgen del Rocio</a>
                     <a href="https://www.mi.com/es/mi-smart-band-4/">Pulsera Xiaomi MiBand</a>
                     <a href="https://www.google.com/fit/">GoogleFit</a>
+
+                </div>
+                <br>
+                <div class="col-md-9 col-md-offset-4">
+
+
+
 
                 </div>
             </div>

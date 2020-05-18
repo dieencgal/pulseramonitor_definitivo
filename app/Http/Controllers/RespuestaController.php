@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Periodo_sueno;
+use App\PreguntasEncuesta;
 use App\Registro_sueno;
+use App\RespuestasEncuesta;
 use App\Video;
 use App\Paciente;
 use Illuminate\Http\Request;
 use Auth;
 
-class VideoController extends Controller
+class RespuestaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,17 +26,17 @@ class VideoController extends Controller
     {
         if ((Auth::user()->hasRole('admin'))) {
 
-            $videos = Video::all();
+            $respuestas = RespuestasEncuesta::all();
 
 
-            return view('videos.index', ['videos' => $videos]);
+            return view('respuesta.index', ['respuestas' => $respuestas]);
 
         } else {
 
-                $videos = Video::all()->where('paciente_id',Auth::user()->id -1);
+                $respuestas = RespuestasEncuesta::all()->where('paciente_id',Auth::user()->id -1);
 
 
-                return view('ejercicios', ['videos' => $videos]);
+                return view('respuesta.index',['respuestas' => $respuestas]);
             }
         }
 
@@ -51,8 +53,9 @@ class VideoController extends Controller
     public function create(){
 
     $pacientes = Paciente::all()->pluck('nombre','id');
+    $preguntas=PreguntasEncuesta::all()->pluck('pregunta');
 
-    return view('videos/create', ['pacientes' => $pacientes]);
+    return view('respuesta/create', ['pacientes' => $pacientes,'preguntas'=>$preguntas]);
 
     }
 
@@ -71,18 +74,20 @@ class VideoController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'url' => 'required|max:255',
-            'paciente_id' => 'required|exists:pacientes,id'
+            'respuesta' => 'required|max:255',
+
+            'pregunta_id' => 'required|exists:preguntas_encuesta,id',
+            'paciente_id' => 'required|exists:pacientes,id',
 
         ]);
-        $videos = new Video($request->all());
-        $videos->save();
+        $respuestas = new RespuestasEncuesta($request->all());
+        $respuestas->save();
 
         // return redirect('especialidades');
 
-        flash('El vídeo se ha asignado correctamente');
+        flash('La respuesta se ha guardado correctamente');
 
-        return redirect()->route('videos.index');
+        return redirect()->route('respuesta.index');
     }
 
     /**
@@ -104,11 +109,12 @@ class VideoController extends Controller
      */
     public function edit($id)
     {
-        $videos = Video::find($id);
+        $respuestas = RespuestasEncuesta::find($id);
 
         $paciente = Paciente::all()->pluck('nombre','id');
+        $preguntas= PreguntasEncuesta::all()->pluck('pregunta');
 
-        return view('videos/edit',['video'=> $videos, 'paciente'=>$paciente ]);    }
+        return view('respuesta/edit',['respuesta'=> $respuestas, 'paciente'=>$paciente, 'pregunta'=>$preguntas ]);    }
 
 
     /**
@@ -122,19 +128,20 @@ class VideoController extends Controller
     {
         $this->validate($request, [
 
-            'url' => 'required|max:255',
-            'paciente_id' => 'required|exists:pacientes,id'
+            'respuesta' => 'required|max:255',
+
+            'pregunta_id' => 'required|exists:preguntas_encuesta,id',
+            'paciente_id' => 'required|exists:pacientes,id',
+
         ]);
+        $respuesta = RespuestasEncuesta::find($id);
+        $respuesta->fill($request->all());
+        $respuesta->save();
 
 
-        $video = Video::find($id);
-        $video->fill($request->all());
+        flash('La respuesta se ha modificado correctamente');
 
-        $video->save();
-
-        flash('El video se ha modificado correctamente');
-
-        return redirect()->route('videos.index');
+        return redirect()->route('respuesta.index');
     }
 
     /**
@@ -145,15 +152,12 @@ class VideoController extends Controller
      */
     public function destroy($id)
     {
-        if ((Auth::user()->hasRole('admin'))) {
-            $video =Video::find($id);
-            $video->delete();
-            flash('El video se ha modificado correctamente');
 
-            return redirect()->route('videos.index');}
-        else{
-            flash('Sólo los médicos pueden borrar datos');
-            return redirect()->route('videos.index');
-        }
-    }
+            $respuesta =RespuestasEncuesta::find($id);
+            $respuesta->delete();
+            flash('Respuesta borrada correctamente');
+
+            return redirect()->route('respuesta.index');}
+
+
 }

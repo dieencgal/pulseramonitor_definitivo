@@ -25,6 +25,9 @@ class User extends Authenticatable
      *
      * @var array
      */
+    public function survey_questions(){
+        return $this->hasOne('App\survey_question');
+    }
     protected $hidden = [
         'password', 'remember_token',
     ];

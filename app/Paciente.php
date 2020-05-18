@@ -20,6 +20,10 @@ class Paciente extends  Model
     {
         return $this->hasMany('App\Paso');
     }
+    public function resp()
+    {
+        return $this->hasMany('App\RespuestasEncuesta');
+    }
     public function frecuencia_cardiaca()
     {
         return $this->hasMany('App\Frecuencia_cardiaca');

@@ -294,7 +294,7 @@ class PacienteController extends Controller
         $id= Auth::user()->id -1;
 
 
-        if(Paciente::where('id',$id)->where('tipo_paciente','enfermo')->count()==1){
+
 
             $pax=Paciente::where('id',$id);
             $fex=substr(($pax->pluck('fecha_operacion'))[0],0,10);
@@ -334,13 +334,15 @@ class PacienteController extends Controller
 
                 $i=$i-1;
             }
-            /*$pa= Paciente::all()->where('tipo_paciente','sano');
-
+            $is=14;
+            $pa= Paciente::all()->where('tipo_paciente','sano')->pluck('id');
+            $t=array();
             foreach($pa as $p){
-                $pas=Paso::all()->where('paciente_id',2)->where('fecha','>',Carbon::now()->subDays(14)->toDateString())->where('fecha','<',Carbon::now()->toDateString());
-                $pas->where('fecha..')-<sum()
+
+                    $t=(Paso::all()->where('paciente_id', $p)->pluck('num_pasos', 'fecha'));
+
             }
-            dd($pas);*/
+
 
             $char = Charts::multi('line', 'highcharts')
                 ->title("Comparación de pasos frente al resto de pacientes")
@@ -399,9 +401,10 @@ class PacienteController extends Controller
 
 
 
+
             return view('grafica2',['chart'=>$chart,'chart2'=>$chart2,'chart3'=>$chart3,'char'=>$char,'usersChart'=>$usersChart]);
 
-        }else{
+        /*}else{
             $id=Auth::user()->id-1;
             $data = collect([]);
             $data1 = collect([]);
@@ -481,7 +484,7 @@ class PacienteController extends Controller
                 ->responsive(true);
 
             return view('grafica2',['chart'=>$chart,'chart2'=>$chart2,'chart3'=>$chart3,'char'=>$char,'usersChart'=>$usersChart]);
-      }
+      }*/
 
 
         }
@@ -514,7 +517,7 @@ class PacienteController extends Controller
     if($pac->count()>0) {
 
 
-        $pasos = Paso::all()->where('paciente_id', $pac[0])->where('fecha', Carbon::now()->subDays(28)->toDateString());
+        $pasos = Paso::all()->where('paciente_id', $pac[0])->where('fecha','>', Carbon::now()->subDays(28)->toDateString());
 
         $chart = Charts::multi('line', 'highcharts')
             ->responsive(true)

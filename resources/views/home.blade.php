@@ -158,15 +158,15 @@
                     @else
                         <div class="panel panel-dos">
 
+                            <small class="form-text text-muted">{!! nl2br(e($vor)) !!}</small>
 
-                            <div>{!! nl2br(e($vor)) !!}</div>
 
 
                         </div>
 
                         @include('flash::message')
 
-                        {!!     Form::submit('Pacientes con una media de pasos al día menor de 5500 en las últimas dos semanas', ['class'=> 'btn' ])!!}
+                       Pacientes con una media de pasos inferior a 5500 en las últimas 2 semanas
                         <br><br>
                         <table class="table table-striped table-bordered">
                             <tr>

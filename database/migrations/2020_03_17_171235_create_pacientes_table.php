@@ -17,9 +17,9 @@ class CreatePacientesTable extends Migration
             $table->double('peso');
             $table->enum('sexo', ['hombre', 'mujer']);
             $table->integer('altura');
-            $table->string('operacion');
+            $table->string('operacion'); //patologia
             $table->dateTime("fecha_operacion")->nullable();
-            $table->enum('tipo_paciente', ['sano', 'enfermo']);
+            $table->string('tipo_paciente'); //tipo dispositivo
             $table->unsignedInteger('medico_id')->nullable();
             $table->timestamps();
             $table->foreign('medico_id')->references('id')->on('medicos');

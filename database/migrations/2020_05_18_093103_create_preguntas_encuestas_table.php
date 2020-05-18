@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCuestionariosTable extends Migration
+class CreatePreguntasEncuestasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateCuestionariosTable extends Migration
      */
     public function up()
     {
-        Schema::create('cuestionarios', function (Blueprint $table) {
+       /* Schema::create('preguntas_encuestas', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
-            $table->string('titulo');
-            $table->string('proposito');
+            $table->string('pregunta');
             $table->timestamps();
         });
+       */
     }
 
     /**
@@ -29,6 +28,6 @@ class CreateCuestionariosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cuestionarios');
+        Schema::dropIfExists('preguntas_encuestas');
     }
 }

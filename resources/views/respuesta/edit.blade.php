@@ -76,56 +76,50 @@
             color: #c7254e;
 
         }
-        .col-md-4{
-            background-color: white;
-            margin-bottom: 3px;
-        }
+
 
 
 
     </style>
 
+    <body>
 
 
 
+    @if(Auth::user()->hasRole('admin'))
+        <li>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Editar respuesta</div>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div id="myDiv">
+                        <div class="panel-body">
+                            @include('flash::message')
 
+                            {!! Form::model($respuesta, [ 'route' => ['respuesta.update',$respuesta->id], 'method'=>'PUT']) !!}
+
+                            <div class="form-group">
+                                {!! Form::label('respuesta', 'Respuesta') !!}
+                                {!! Form::text('respuesta',$respuesta->url,['class'=>'form-control', 'required', 'autofocus']) !!}
+                            </div>
+
+                            <div class="form-group">
+                                {!!Form::label('paciente_id', 'Paciente') !!}
+                                <br>
+                                {!! Form::select('paciente_id', $pacientes, $respuesta->paciente_id, ['class' => 'form-control']) !!}
+                            </div>
+                            {!! Form::submit('Guardar',['class'=>'btn-primary btn']) !!}
+
+                            {!! Form::close() !!}
+                        </div>
+                    </div>
                 </div>
             </div>
-
-
-            <div class="panel panel-default">
-                <div class="panel-heading">Frecuencia cardíaca</div>
-<!doctype html>
-<html lang="{{ app()->getLocale() }}">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Laravel Charts</title>
-</head>
-<body>
-<div class="container">
-    <h1 style="text-align: center;"></h1>
-    <br>
-    {!! $chart->html() !!}
-
-</div>
-
-{!! Charts::scripts() !!}
-{!! $chart->script() !!}
-
-</body>
-</html>
-            </div>
         </div>
-    </div>
 
-
+        </li>
+    @else
+        <div class="panel-heading">Solo puede editar los datos un médico.</div>
+    @endif
 @endsection
-
-

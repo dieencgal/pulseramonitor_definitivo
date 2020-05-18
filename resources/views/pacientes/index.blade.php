@@ -104,6 +104,8 @@
 
                 <div class="panel-body">
                         @include('flash::message')
+                    @if(Auth::user()->hasRole('admin'))
+
 
                         {!! Form::open(['route' => 'pacientes.create', 'method' => 'get']) !!}
                         {!!     Form::submit('Crear datos del paciente', ['class'=> 'btn btn-primary'])!!}
@@ -123,11 +125,15 @@
                                 </div>
                             </form>
                         </div>
+                        @else
+                        El médico aún debe darle de alta
+                    @endif
 
 
 
 
-                        <br><br>
+
+                    <br><br>
                         <table class="table table-striped table-bordered">
                             <tr>
                                 <th>Nombre</th>
@@ -136,10 +142,10 @@
                                 <th>Peso</th>
                                 <th>Sexo</th>
                                 <th>Altura</th>
-                                <th>Operacion</th>
+                                <th>Patología</th>
                                 <th>Fecha de la operación</th>
-                                <th>Tipo de paciente</th>
-                                <th>Médico</th>
+                                <th>Tipo de dispositivo</th>
+                                <th>Clínico</th>
                                 <th colspan="3">Acciones</th>
                             </tr>
 
