@@ -251,6 +251,31 @@ class PacienteController extends Controller
     return redirect()->route('pacientes.index');
 }
 
+
+
+ public function sanos(){
+       $num=basedatos::all()->where('paciente_id',0)->groupBy('fecha')->count();
+       $basedato=basedatos::all()->where('paciente_id',0);
+       $i=0;
+       $dum=collect([]);
+       $media=collect([]);
+       $fechas=collect([]);
+       $dum->push(basedatos::all()->where('paciente_id',0)->groupBy('fecha'));
+       while($i<$num-1){
+           $fecha=($dum[0]->keys())[$i];
+           $numero=basedatos::all()->where('paciente_id',0)->where('fecha',$fecha)->count();
+           $numero_pasos=basedatos::all()->where('paciente_id',0)->where('fecha',$fecha)->sum('num_pasos');
+           $media->push($numero_pasos/$numero);
+           $fechas->push($fecha);
+
+           $i=$i+1;
+
+       }
+
+
+
+
+ }
   public function comparacion()
   {
       $id=Auth::user()->id-1;
@@ -515,6 +540,28 @@ class PacienteController extends Controller
     $search = $request->get('search2');
     $pac=Paciente::where('apellidos',$search)->pluck('id');
     if($pac->count()>0) {
+        $num=basedatos::all()->where('paciente_id',0)->where('fecha','>',Carbon::now()->subDays(28)->toDateString())->groupBy('fecha')->count();
+
+        $basedato=basedatos::all()->where('paciente_id',0)->first();
+        $i=0;
+        $dum=collect([]);
+        $media=collect([]);
+        $fechas=collect([]);
+        $dum->push(basedatos::all()->where('paciente_id',0)->where('fecha','>',Carbon::now()->subDays(28)->toDateString())->groupBy('fecha'));
+        while($i<$num-1){
+            $fecha=($dum[0]->keys())[$i];
+            $numero=basedatos::all()->where('paciente_id',0)->where('fecha',$fecha)->count();
+
+            $numero_pasos=basedatos::all()->where('paciente_id',0)->where('fecha',$fecha)->sum('recuento_pasos');
+
+            $media->push($numero_pasos/$numero);
+            $fechas->push($fecha);
+
+            $i=$i+1;
+
+        }
+
+
 
 
         $pasos = Paso::all()->where('paciente_id', $pac[0])->where('fecha','>', Carbon::now()->subDays(28)->toDateString());
@@ -526,7 +573,9 @@ class PacienteController extends Controller
             ->labels($pasos->pluck('fecha'))
             ->title('Recuento de pasos del paciente ' . $search . '')
             ->yAxisTitle("Número de pasos")
-            ->dataset('Recuento de pasos diarios', $pasos->pluck('num_pasos'));
+            ->dataset('Recuento de pasos diarios', $pasos->pluck('num_pasos'))
+            ->dataset('Recuento de pasos diarios población sana', $media);
+
 
 
         return view('pasos.index', ['pasos' => $pasos, 'chart' => $chart]);
@@ -566,23 +615,47 @@ class PacienteController extends Controller
     {
 
         $search = $request->get('search3');
-        $pac=Paciente::where('apellidos',$search)->pluck('id');
+        $pac = Paciente::where('apellidos', $search)->pluck('id');
 
 
-        if($pac->count()>0) {
-            $registro_suenos = Registro_sueno::all()->where('paciente_id', $pac[0])->where('horas_sueno', '>', 1)->where('fecha','>',Carbon::now()->subDays(28)->toDateString());
-            $chart = Charts::multi('line', 'highcharts')
-                ->responsive(true)
-                ->dimensions(0, 500)
-                ->template("material")
-                ->labels($registro_suenos->pluck('fecha'))
-                ->title('Horas de sueño del paciente ' . $search . '')
-                ->yAxisTitle("Horas")
-                ->dataset('Registro horas de sueño', $registro_suenos->pluck('horas_sueno'));
+        if ($pac->count() > 0) {
+            $num = basedatos::all()->where('paciente_id', 0)->where('dormir_duracion', '>', 0)->where('fecha', '>', Carbon::now()->subDays(28)->toDateString())->groupBy('fecha')->count();
+
+            $basedato = basedatos::all()->where('paciente_id', 0)->first();
+            $i = 0;
+            $dum = collect([]);
+            $media = collect([]);
+            $fechas = collect([]);
+            $dum->push(basedatos::all()->where('paciente_id', 0)->where('dormir_duracion', '>', 0)->where('fecha', '>', Carbon::now()->subDays(28)->toDateString())->groupBy('fecha'));
+            while ($i < $num - 1) {
+                $fecha = ($dum[0]->keys())[$i];
+                $numero = basedatos::all()->where('paciente_id', 0)->where('fecha', $fecha)->where('fecha', '>', Carbon::now()->subDays(28)->toDateString())->pluck('dormir_duracion')->count();
+                $numero_pasos = basedatos::all()->where('paciente_id', 0)->where('fecha', $fecha)->sum('dormir_duracion');
 
 
-            return view('registro_suenos.index', ['registro_suenos' => $registro_suenos, 'chart' => $chart]);
-        }else{
+                $media->push($numero_pasos/$numero);
+                $fechas->push($fecha);
+
+
+            $i = $i + 1;
+
+        }
+
+
+        $registro_suenos = Registro_sueno::all()->where('paciente_id', $pac[0])->where('horas_sueno', '>', 1)->where('fecha', '>', Carbon::now()->subDays(28)->toDateString());
+        $chart = Charts::multi('line', 'highcharts')
+            ->responsive(true)
+            ->dimensions(0, 500)
+            ->template("material")
+            ->labels($registro_suenos->pluck('fecha'))
+            ->title('Horas de sueño del paciente ' . $search . '')
+            ->yAxisTitle("Horas")
+            ->dataset('Registro horas de sueño', $registro_suenos->pluck('horas_sueno'))
+            ->dataset('Registro horas de sueño población sana', $media);;
+
+
+        return view('registro_suenos.index', ['registro_suenos' => $registro_suenos, 'chart' => $chart]);
+     }else{
             $registro_suenos = Registro_sueno::all();
             $data = collect([]);
 

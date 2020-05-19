@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\basedatos;
 use App\Paciente;
 use App\Paso;
 use App\User;
@@ -39,11 +40,12 @@ class HomeController extends Controller
         $request->user()->authorizeRoles(['user', 'admin']);
 
 
-            $pacientes = Paciente::all()->where('id', (Auth::user()->id) - 1);
+
             $var="";
 
 
             if(Auth::user()->hasRole('user')){
+                $pacientes = Paciente::all()->where('id', (Auth::user()->id) - 1);
 
             if(File::exists(base_path('/resources/carpetaPacientes/pendingcontacts/'.Auth::user()->name))) {
 
@@ -62,22 +64,23 @@ class HomeController extends Controller
 
 
     }else{
-                $vor="";
+                $vor="Todos los pacientes han importado datos en los últimos 10 días";
                 $usuario= User::all()->where('id','>',1);
-                foreach ($usuario as $user){
+                foreach ($usuario as $user) {
 
-                    if(File::exists(base_path('/resources/carpetaPacientes/pendingcontacts/'.Auth::user()->name)) == true){
-                $files = scandir(base_path('/resources/carpetaPacientes/pendingcontacts/' . $user->name . ''), SCANDIR_SORT_DESCENDING);
+                    if (File::exists(base_path('/resources/carpetaPacientes/pendingcontacts/' . Auth::user()->name)) == true) {
+                        $files = scandir(base_path('/resources/carpetaPacientes/pendingcontacts/' . $user->name . ''), SCANDIR_SORT_DESCENDING);
 
-                if(Carbon::now()->subDays(14) >= (date('Y-m-d',strtotime(substr($files[0], 0, 8))))){
-                    /*$vor="\r\n" .$vor. "\r\n" ."El usuario ".$user->name." lleva desde el ".(date('Y-m-d',strtotime(substr($files[0], 0, 8))))." sin importar datos, su correo es ".$user->email.".". "\r\n";*/
-                     $vor=$vor."El usuario ".$user->name." lleva desde el ".(date('Y-m-d',strtotime(substr($files[0], 0, 8))))." sin importar datos, su correo es ".$user->email."\n";
+                        if (Carbon::now()->subDays(10) >= (date('Y-m-d', strtotime(substr($files[0], 0, 8))))) {
+                            /*$vor="\r\n" .$vor. "\r\n" ."El usuario ".$user->name." lleva desde el ".(date('Y-m-d',strtotime(substr($files[0], 0, 8))))." sin importar datos, su correo es ".$user->email.".". "\r\n";*/
+                            $vor = $vor . "El usuario " . $user->name . " lleva desde el " . (date('Y-m-d', strtotime(substr($files[0], 0, 8)))) . " sin importar datos, su correo es " . $user->email . "\n";
+
+                        }
+
 
                     }
-
-
                 }
-                $var='';
+                /*$var='';
                 $pacient= Paciente::all();
                 foreach ($pacient as $paciente){
                     $cont=Paso::all()->where('paciente_id',$paciente->id)->where('fecha','>',Carbon::now()->subDays(14))->count();
@@ -87,14 +90,38 @@ class HomeController extends Controller
                         if (($num_pasos / $cont) < 5500) {
                             $pacientes = $paciente->get();
                         }
+                    }
                         if ($pacientes->count() < 1) {
                             $var = ' No tiene ningún paciente con una media de pasos al día menor que 5500';
                         }
-                    }
 
-                }}
 
-                return view('home',['pacientes'=>$pacientes,'var'=>$var,'vor'=>$vor]);
+                }*/
+                $num=basedatos::all()->where('paciente_id',0)->where('fecha','>',Carbon::now()->subDays(14)->toDateString())->groupBy('fecha')->count();
+
+                $basedato=basedatos::all()->where('paciente_id',0)->first();
+                $i=0;
+                $dum=collect([]);
+                $media=collect([]);
+                $fechas=collect([]);
+                $dum->push(basedatos::all()->where('paciente_id',0)->where('fecha','>',Carbon::now()->subDays(14)->toDateString())->groupBy('fecha'));
+                while($i<$num-1){
+                    $fecha=($dum[0]->keys())[$i];
+                    $numero=basedatos::all()->where('paciente_id',0)->where('fecha',$fecha)->count();
+
+                    $numero_pasos=basedatos::all()->where('paciente_id',0)->where('fecha',$fecha)->sum('dormir_duracion');
+
+                    $media->push($numero_pasos/$numero);
+                    $fechas->push($fecha);
+
+                    $i=$i+1;
+
+                }
+
+
+
+
+                return view('home',['vor'=>$vor]);
             }
 
 

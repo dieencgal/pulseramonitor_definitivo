@@ -164,48 +164,11 @@
 
                         </div>
 
-                        @include('flash::message')
 
-                       Pacientes con una media de pasos inferior a 5500 en las últimas 2 semanas
+                        <a href="{{  url('import') }}" class="btn btn-primary">Importar</a>
+                        <small>Importar datos de usuarios sanos</small>
                         <br><br>
-                        <table class="table table-striped table-bordered">
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Apellidos</th>
-                                <th>Edad</th>
-                                <th>Peso</th>
-                                <th>Sexo</th>
-                                <th>Altura</th>
 
-
-                            </tr>
-
-                            @foreach ($pacientes as $paciente)
-
-
-                                <tr>
-                                    <td>{{ $paciente->nombre }}</td>
-                                    <td>{{ $paciente->apellidos }}</td>
-                                    <td>{{ $paciente->edad }}</td>
-                                    <td>{{ $paciente->peso }}</td>
-                                    <td>{{ $paciente->sexo }}</td>
-                                    <td>{{ $paciente->altura }}</td>
-
-
-
-
-                                </tr>
-                            @endforeach
-                        </table>
-                        <br><br>
-                        <br><br>
-                        <div class="panel panel-dos">
-
-
-                            <div> {{$var}} </div>
-
-
-                        </div>
 
                     @endif
 
