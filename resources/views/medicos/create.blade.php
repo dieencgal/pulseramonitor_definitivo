@@ -104,7 +104,7 @@
                             {!! Form::text('nombre',null,['class'=>'form-control', 'required', 'autofocus']) !!}
                         </div>
                         <div class="form-group">
-                            {!! Form::label('apellidos', 'Apellidos del medico') !!}
+                            {!! Form::label('apellidos', 'Apellidos ') !!}
                             {!! Form::text('apellidos',null,['class'=>'form-control', 'required']) !!}
                         </div>
                         <br><br>

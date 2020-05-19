@@ -38,20 +38,7 @@ class PacienteController extends Controller
     }
     public function index()
     {
-       /* $pacientes = Paciente::all();
-        if(($pacientes->contains('id',1))==true){
 
-           $pacientes->
-
-
-        }*/
-       /* $pacientes = Paciente::all();
-
-        if(($pacientes->contains('id',1))==true) {
-            $color = Paciente::where('id', 1);
-            $color->delete();
-            return view('pacientes.index', ['pacientes' => $pacientes]);
-        }*/
 
         if ((Auth::user()->hasRole('admin'))){
 
@@ -80,10 +67,27 @@ class PacienteController extends Controller
                 ->responsive(true)
 
             ;
+            $usu=User::all()->count();
+            $pas=Paciente::all()->count();
+
+
+            $var="";
+            $s=Paciente::all()->last();
+            if($usu==1 || $usu==$pas+1){
+                $var="";
+            }elseif($usu == $pas) {
+                    $var = "No es recomendable añadir un nuevo paciente hasta que " . $s->nombre . " " . $s->apellidos . " no se haya registrado ";
+
+            } elseif ($usu < $pas) {
+                    $var = "Ha añadido pacientes que aun no están registrados como usuarios, esto puede generar problemas";
+                } else {
+                    $var = "Hay mas usuarios que pacientes, añada sus datos de forma ordenada";
+                }
 
 
 
-            return view('pacientes.index', ['pacientes' => $pacientes]);
+
+            return view('pacientes.index', ['pacientes' => $pacientes,'var'=>$var]);
         }
         else {
             $pacientas = (Paciente::all()->where('id', ((Auth::user()->id))-1))->isEmpty();
@@ -702,6 +706,28 @@ class PacienteController extends Controller
         $search = $request->get('search4');
         $pac=Paciente::where('apellidos',$search)->pluck('id');
         if($pac->count()>0) {
+            $num = basedatos::all()->where('paciente_id', 0)->where('frec_cardiaca_min', '>', 0)->where('fecha', '>', Carbon::now()->subDays(28)->toDateString())->groupBy('fecha')->count();
+
+            $basedato = basedatos::all()->where('paciente_id', 0)->first();
+            $i = 0;
+            $dum = collect([]);
+            $media = collect([]);
+            $fechas = collect([]);
+            $dum->push(basedatos::all()->where('paciente_id', 0)->where('frec_cardiaca_min', '>', 0)->where('fecha', '>', Carbon::now()->subDays(28)->toDateString())->groupBy('fecha'));
+            while ($i < $num - 1) {
+                $fecha = ($dum[0]->keys())[$i];
+                $numero = basedatos::all()->where('paciente_id', 0)->where('fecha', $fecha)->where('fecha', '>', Carbon::now()->subDays(28)->toDateString())->count();
+                $numero_pasos = basedatos::all()->where('paciente_id', 0)->where('fecha', $fecha)->sum('frec_cardiaca_min');
+
+
+                $media->push($numero_pasos/$numero);
+                $fechas->push($fecha);
+
+
+                $i = $i + 1;
+
+            }
+
             $frecuencia_cardiacas=Frecuencia_cardiaca::all()->where('paciente_id', $pac[0]);
             $frecuencia_cardiacas2 = Frecuencia_cardiaca::where('paciente_id', $pac[0])->where('frec_cardiaca_min', '>', 0)->where('fecha','>',Carbon::now()->subDays(28)->toDateString());
             $chart = Charts::multi('line', 'highcharts')
@@ -713,7 +739,9 @@ class PacienteController extends Controller
                 ->yAxisTitle("Pulsaciones por minuto")
                 ->dataset('Frecuencia cardíaca media máxima', $frecuencia_cardiacas2->pluck('frec_cardiaca_max'))
                 ->dataset('Frecuencia cardíaca media', $frecuencia_cardiacas2->pluck('frec_cardiaca_media'))
-                ->dataset('Frecuencia cardíaca media mínima', $frecuencia_cardiacas2->pluck('frec_cardiaca_min'));
+                ->dataset('Frecuencia cardíaca en reposo', $frecuencia_cardiacas2->pluck('frec_cardiaca_min'))
+                ->dataset('Frecuencia cardíaca en reposo población sana', $media)
+                ->colors(['#1c6cf4','#1c6cf4','#1c6cf4','#FFF000']);
 
             return view('frecuencia_cardiacas.index', ['frecuencia_cardiacas' => $frecuencia_cardiacas, 'chart' => $chart]);
         }else {

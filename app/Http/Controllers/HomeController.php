@@ -58,7 +58,7 @@ class HomeController extends Controller
                 $var = "La última vez que importó sus datos fué el $fil/$fil1/$fil3 , no olvide importar sus datos al menos una vez cada dos semanas";
 
             }else {
-                $var = "Aun no ha importado ningún dato";
+                $var = "Aún no ha importado ningún dato";
             }
                 return view('home',['pacientes'=>$pacientes,'var'=>$var]);
 

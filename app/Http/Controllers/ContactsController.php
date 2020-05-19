@@ -98,19 +98,20 @@ class ContactsController extends Controller
 
                             $csv_data->velocidad_media = 0;
                         } else {
-                            $csv_data->velocidad_media = $data [6];
+                            $csv_data->velocidad_media = number_format($data [6]*3.6, 2);
                         }
                         if ($data [7] == '') {
 
                             $csv_data->velocidad_max = 0;
                         } else {
-                            $csv_data->velocidad_max = $data [7];
+                            $csv_data->velocidad_max =  number_format($data [7]*3.6, 2);
                         }
                         if ($data [8] == '') {
 
                             $csv_data->velocidad_min = 0;
                         } else {
-                            $csv_data->velocidad_min = $data [8];
+                            $csv_data->velocidad_min = number_format($data [8]*3.6, 2);
+
                         }
                         if ($data [9] == '') {
 
@@ -142,17 +143,18 @@ class ContactsController extends Controller
                         } else {
                             $csv_data->recuento_min_activos = $data [13];
                         }
-                        if ($data [14] == '') {
+                        if ($data [16] == '') {
 
                             $csv_data->andar_duracion = 0;
                         } else {
-                            $csv_data->andar_duracion = $data [14];
+                            $csv_data->andar_duracion = $data[16];
+
                         }
-                        if ($data [15] == '') {
+                        if ($data [17] == '') {
 
                             $csv_data->dormir_duracion = 0;
                         } else {
-                            $csv_data->dormir_duracion = number_format($data [15] * 2.77778e-7, 2);
+                            $csv_data->dormir_duracion = number_format($data [17] * 2.77778e-7, 2);
                         }
                         $csv_data->paciente_id = Auth::user()->id-1;
                         $csv_data->save();
@@ -266,19 +268,20 @@ class ContactsController extends Controller
 
                             $csv_data->velocidad_media = 0;
                         } else {
-                            $csv_data->velocidad_media = $data [6];
+                            $csv_data->velocidad_media = number_format($data [6]*3.6, 2);
                         }
                         if ($data [7] == '') {
 
                             $csv_data->velocidad_max = 0;
                         } else {
-                            $csv_data->velocidad_max = $data [7];
+                            $csv_data->velocidad_max =  number_format($data [7]*3.6, 2);
                         }
                         if ($data [8] == '') {
 
                             $csv_data->velocidad_min = 0;
                         } else {
-                            $csv_data->velocidad_min = $data [8];
+                            $csv_data->velocidad_min = number_format($data [8]*3.6, 2);
+
                         }
                         if ($data [9] == '') {
 
@@ -310,17 +313,18 @@ class ContactsController extends Controller
                         } else {
                             $csv_data->recuento_min_activos = $data [13];
                         }
-                        if ($data [14] == '') {
+                        if ($data [16] == '') {
 
                             $csv_data->andar_duracion = 0;
                         } else {
-                            $csv_data->andar_duracion = $data [14];
+                            $csv_data->andar_duracion = number_format($data [16] * 2.77778e-7, 3);
+
                         }
-                        if ($data [15] == '') {
+                        if ($data [17] == '') {
 
                             $csv_data->dormir_duracion = 0;
                         } else {
-                            $csv_data->dormir_duracion = $data [15];
+                            $csv_data->dormir_duracion = number_format($data [17] * 2.77778e-7, 2);
                         }
                         $csv_data->paciente_id = Auth::user()->id - 1;
                         $csv_data->save();

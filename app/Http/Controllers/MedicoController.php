@@ -57,7 +57,7 @@ class MedicoController extends Controller
 
     // return redirect('especialidades');
 
-    flash('medico creado correctamente');
+    flash('Médico creado correctamente');
 
     return redirect()->route('medicos.index');
 }

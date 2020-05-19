@@ -98,7 +98,7 @@
                     <div class="panel-body">
                         @include('flash::message')
                         {!! Form::open(['route' => 'medicos.create', 'method' => 'get', 'class'=>'inline-important']) !!}
-                        {!!   Form::submit('Crear medico', ['class'=> 'btn btn-primary'])!!}
+                        {!!   Form::submit('Añadir datos del médico', ['class'=> 'btn btn-primary'])!!}
                         {!! Form::close() !!}
 
 

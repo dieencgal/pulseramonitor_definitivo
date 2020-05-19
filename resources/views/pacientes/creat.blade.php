@@ -152,24 +152,24 @@
                         </table>
                         {!!     Form::submit('Mis datos', ['class'=> 'btn btn-primary'])!!}
                         <br><br>
-                        <table class="table table-striped table-bordered">
+                        <table class="table table-responsive table-condensed">
                             <td style ="word-break:break-all;">
                             <thead>
                             <tr>
 
                                 <th>Fecha</th>
-                                <th>Distancia (m)</th>
-                                <th>Frecuencia cardiaca media (ppm)</th>
-                                <th>Frecuencia cardiaca max (ppm)</th>
-                                <th>Frecuencia cardiaca min (ppm)</th>
-                                <th>Velocidad media (m/s)</th>
-                                <th>Velocidad max (m/s)</th>
-                                <th>Velocidad min (m/s) </th>
+                                <th>Distancia [m]</th>
+                                <th>Frecuencia cardiaca media [ppm]</th>
+                                <th>Frecuencia cardiaca max [ppm]</th>
+                                <th>Frecuencia cardiaca min [ppm])</th>
+                                <th>Velocidad media [km/h]</th>
+                                <th>Velocidad max [km/h]</th>
+                                <th>Velocidad min [km/h]</th>
                                 <th>Recuento pasos</th>
                                 <th>Peso medio (kg)</th>
                                 <th>Recuento de minutos activos</th>
-                                <th>Andar duración</th>
-                                <th>Dormir duracion (ms)</th>
+                                <th>Andar duración(h)</th>
+                                <th>Dormir duracion(h))</th>
                             </tr>
                             </thead>
                             <tbody>

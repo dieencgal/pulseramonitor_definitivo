@@ -110,8 +110,16 @@
                         {!! Form::open(['route' => 'pacientes.create', 'method' => 'get']) !!}
                         {!!     Form::submit('Crear datos del paciente', ['class'=> 'btn btn-primary'])!!}
                         {!! Form::close() !!}
+                        <div class="panel panel-dos">
+
+
+                            {{$var}}
+
+
+                        </div>
 
                     <br><br>
+
 
                         <div class="col-md-6">
                             <button type="submit" >Buscar un paciente por apellido, tipo operación o número de ID</button>
