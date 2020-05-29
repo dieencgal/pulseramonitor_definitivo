@@ -136,11 +136,7 @@
                                         Frecuencias cardiacas
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="{{ url('/grafica2') }}">
-                                        Gráficas comparativas
-                                    </a>
-                                </li>
+
                                 <li>
                                     <a href="{{ url('/videosindex') }}">
                                         Guía de ejercicios recomendados

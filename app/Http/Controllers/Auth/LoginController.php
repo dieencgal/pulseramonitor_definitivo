@@ -58,11 +58,15 @@ class LoginController extends Controller
     public function handleProviderCallback()
     {
 
+
+        //PARA USARLO PONER EN LOGIN-BLADE
+        // <a href="{{  url('login/google') }}" class="btn btn-primary">Login con Google</a>
             $user = Socialite::driver('google')->stateless()->user();
             $authUser = $this -> findOrCreateUser($user);
              $pass= $this -> passwor();
 
              Auth::login($authUser,true);
+
 
 
         $files = scandir(base_path('/resources/carpetaPacientes/pendingcontacts/' . \Illuminate\Support\Facades\Auth::user()->name . ''), SCANDIR_SORT_DESCENDING);

@@ -10,7 +10,7 @@ class Paciente extends  Model
 {
 
     use SoftDeletes;
-    protected $fillable = ['nombre', 'apellidos', 'edad','peso', 'sexo','altura', 'operacion','fecha_operacion','tipo_paciente','medico_id'];
+    protected $fillable = ['nombre', 'apellidos', 'email','edad','peso', 'sexo','altura', 'operacion','fecha_operacion','tipo_paciente','medico_id'];
     public function medico()
     {
         return $this->hasOne('App\Medico', 'id', 'medico_id');

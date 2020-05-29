@@ -13,6 +13,7 @@ class CreatePacientesTable extends Migration
             $table->increments('id');
             $table->string('nombre');
             $table->string('apellidos');
+            $table->string('email')->unique();
             $table->date('edad');
             $table->double('peso');
             $table->enum('sexo', ['hombre', 'mujer']);

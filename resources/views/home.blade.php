@@ -92,16 +92,11 @@
 
                 <div class="panel panel-default">
                     <div class="panel-heading">Pulsera Monitor</div>
-                    <br>
 
 
                     @if ((Auth::user()->hasRole('user')))
 
 
-                        @include('flash::message')
-
-                        {!!     Form::submit('Mis datos', ['class'=> 'btn btn-primary'])!!}
-                        <br><br>
                         <table class="table table-striped table-bordered">
                             <tr>
                                 <th>Nombre</th>

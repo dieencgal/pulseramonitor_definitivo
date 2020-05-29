@@ -52,6 +52,7 @@ Route::get('import',  'ContactsController@import');
 Route::post('import', 'ContactsController@parseImport');
 
 Route::get('infoPacientes/{id}',  'PacienteController@infoPacientes');
+Route::get('comparativas/{id}',  'PacienteController@comparativas');
 
 
 

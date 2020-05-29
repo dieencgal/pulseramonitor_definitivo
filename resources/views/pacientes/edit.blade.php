@@ -109,6 +109,10 @@
                                 {!! Form::text('apellidos',$paciente->apellidos,['class'=>'form-control', 'required']) !!}
                             </div>
                             <div class="form-group">
+                                {!! Form::label('email', 'Email') !!}
+                                {!! Form::text('email',$paciente->apellidos,['class'=>'form-control', 'required']) !!}
+                            </div>
+                            <div class="form-group">
                                 {!! Form::label('edad', 'edad del paciente') !!}
                                 {!! Form::text('edad',null,['class'=>'form-control', 'required']) !!}
                             </div>

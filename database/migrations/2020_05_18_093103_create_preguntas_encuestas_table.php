@@ -13,12 +13,12 @@ class CreatePreguntasEncuestasTable extends Migration
      */
     public function up()
     {
-       /* Schema::create('preguntas_encuestas', function (Blueprint $table) {
+        Schema::create('preguntas_encuestas', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('pregunta');
             $table->timestamps();
         });
-       */
+
     }
 
     /**

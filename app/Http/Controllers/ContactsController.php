@@ -147,7 +147,7 @@ class ContactsController extends Controller
 
                             $csv_data->andar_duracion = 0;
                         } else {
-                            $csv_data->andar_duracion = $data[16];
+                            $csv_data->andar_duracion = number_format($data [16] * 2.77778e-7, 3);
 
                         }
                         if ($data [17] == '') {

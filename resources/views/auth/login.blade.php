@@ -148,7 +148,7 @@
                             </div>
                         </div>
                     </form>
-                    <a href="{{  url('login/google') }}" class="btn btn-primary">Login con Google</a>
+
 
 
                 </div>

@@ -109,6 +109,7 @@
                             <tr>
                                 <th>Nombre</th>
                                 <th>Apellidos</th>
+                                <th>Email</th>
                                 <th>Edad</th>
                                 <th>Peso</th>
                                 <th>Sexo</th>
@@ -126,6 +127,7 @@
                                 <tr>
                                     <td>{{ $paciente->nombre }}</td>
                                     <td>{{ $paciente->apellidos }}</td>
+                                    <td>{{ $paciente->email }}</td>
                                     <td>{{ $paciente->edad }}</td>
                                     <td>{{ $paciente->peso }}</td>
                                     <td>{{ $paciente->sexo }}</td>
@@ -161,7 +163,7 @@
                                 <th>Distancia [m]</th>
                                 <th>Frecuencia cardiaca media [ppm]</th>
                                 <th>Frecuencia cardiaca max [ppm]</th>
-                                <th>Frecuencia cardiaca min [ppm])</th>
+                                <th>Frecuencia cardiaca min [ppm]</th>
                                 <th>Velocidad media [km/h]</th>
                                 <th>Velocidad max [km/h]</th>
                                 <th>Velocidad min [km/h]</th>

@@ -30,9 +30,9 @@ class CreateBasedatosTable extends Migration
             $table  -> integer('peso_medio')->nullable();
             $table  -> integer('peso_max')->nullable();
             $table  -> integer('peso_min')->nullable();
-            $table  -> integer('recuento_min_activos')->nullable();
-            $table  -> integer('andar_duracion')->nullable();
-            $table  -> integer('dormir_duracion')->nullable();
+            $table  -> float('recuento_min_activos')->nullable();
+            $table  -> float('andar_duracion')->nullable();
+            $table  -> float('dormir_duracion')->nullable();
             $table->string('paciente_id');
 
             $table->timestamps();

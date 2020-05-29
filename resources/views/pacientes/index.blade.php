@@ -122,7 +122,7 @@
 
 
                         <div class="col-md-6">
-                            <button type="submit" >Buscar un paciente por apellido, tipo operación o número de ID</button>
+                            <button type="submit" >Buscar un paciente por apellido, patología o número de ID</button>
                             <form action="/search"  method="get">
                                 <div class="form-group">
                                     <input type="search" name="search" class="form-control" placeholder="Buscar paciente">
@@ -146,6 +146,7 @@
                             <tr>
                                 <th>Nombre</th>
                                 <th>Apellidos</th>
+                                <th>Email</th>
                                 <th>Edad</th>
                                 <th>Peso</th>
                                 <th>Sexo</th>
@@ -154,7 +155,7 @@
                                 <th>Fecha de la operación</th>
                                 <th>Tipo de dispositivo</th>
                                 <th>Clínico</th>
-                                <th colspan="3">Acciones</th>
+                                <th colspan="2">Acciones</th>
                             </tr>
 
                             @foreach ($pacientes as $paciente)
@@ -163,6 +164,7 @@
                                 <tr>
                                     <td>{{ $paciente->nombre }}</td>
                                     <td>{{ $paciente->apellidos }}</td>
+                                    <td>{{ $paciente->email }}</td>
                                     <td>{{ $paciente->edad }}</td>
                                     <td>{{ $paciente->peso }}</td>
                                     <td>{{ $paciente->sexo }}</td>
@@ -177,22 +179,24 @@
                                         {!! Form::open(['route' => ['pacientes.edit',$paciente->id], 'method' => 'get']) !!}
                                         {!!   Form::submit('Editar', ['class'=> 'btn btn-warning'])!!}
                                         {!! Form::close() !!}
-                                    </td>
-                                    <td>
+
                                         {!! Form::open(['route' => ['pacientes.destroy',$paciente->id], 'method' => 'delete']) !!}
-                                        {!!   Form::submit('Borrar', ['class'=> 'btn btn-danger' ,'onclick' => 'if(!confirm("¿Está seguro?"))event.preventDefault();'])!!}
+                                        {!!   Form::submit('Borrar', ['class'=> 'btn btn-primary' ,'onclick' => 'if(!confirm("¿Está seguro?"))event.preventDefault();'])!!}
                                         {!! Form::close() !!}
 
                                     </td>
 
                                     <td>
                                         <a href="{{ url('infoPacientes/'.$paciente->id.'/') }}">
-                                            {!!     Form::submit('Ver datos', ['class'=> 'btn btn-primary'])!!}
+                                            {!!     Form::submit('Ver datos', ['class'=> 'btn btn-warning'])!!}
                                         </a>
-
-
-
+                                        <br>
+                                        <a href="{{ url('comparativas/'.$paciente->id.'/') }}">
+                                            {!!     Form::submit('Evolución', ['class'=> 'btn btn-primary'])!!}
+                                        </a>
                                     </td>
+
+
                                 </tr>
                             @endforeach
                         </table>

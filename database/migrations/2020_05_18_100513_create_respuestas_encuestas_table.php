@@ -13,14 +13,14 @@ class CreateRespuestasEncuestasTable extends Migration
      */
     public function up()
     {
-        /*Schema::create('respuestas_encuestas', function (Blueprint $table) {
+        Schema::create('respuestas_encuestas', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('respuesta');
             $table->foreign('pregunta_id')->references('pregunta')->on('preguntas_encuestas')->onDelete('restrict');
             $table->foreign('paciente_id')->references('id')->on('pacientes')->onDelete('restrict');
 
             $table->timestamps();
-        });*/
+        });
     }
 
     /**

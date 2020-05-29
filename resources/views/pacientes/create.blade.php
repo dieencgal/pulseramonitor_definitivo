@@ -107,6 +107,10 @@
                             {!! Form::text('apellidos',null,['class'=>'form-control', 'required']) !!}
                         </div>
                         <div class="form-group">
+                            {!! Form::label('email', 'Email') !!}
+                            {!! Form::text('email',null,['class'=>'form-control', 'required']) !!}
+                        </div>
+                        <div class="form-group">
                             {!! Form::label('edad', 'edad') !!}
                             {!! Form::text('edad',null,['class'=>'form-control', 'required']) !!}
                         </div>
@@ -154,19 +158,23 @@
                                 {!! Form::text('apellidos',null,['class'=>'form-control', 'required']) !!}
                             </div>
                             <div class="form-group">
-                                {!! Form::label('edad', 'edad') !!}
+                                {!! Form::label('email', 'Email') !!}
+                                {!! Form::text('email',null,['class'=>'form-control', 'required']) !!}
+                            </div>
+                            <div class="form-group">
+                                {!! Form::label('edad', 'Edad') !!}
                                 {!! Form::text('edad',null,['class'=>'form-control', 'required']) !!}
                             </div>
                             <div class="form-group">
-                                {!! Form::label('peso', 'peso del paciente') !!}
+                                {!! Form::label('peso', 'Peso') !!}
                                 {!! Form::text('peso',null,['class'=>'form-control', 'required']) !!}
                             </div>
                             <div class="form-group">
-                                {!! Form::label('sexo', 'sexo del paciente') !!}
+                                {!! Form::label('sexo', 'Sexo') !!}
                                 {!! Form::text('sexo',null,['class'=>'form-control', 'required']) !!}
                             </div>
                             <div class="form-group">
-                                {!! Form::label('altura', 'altura del paciente') !!}
+                                {!! Form::label('altura', 'Altura') !!}
                                 {!! Form::text('altura',null,['class'=>'form-control', 'required']) !!}
                             </div>
                             <div class="form-group">
@@ -186,7 +194,7 @@
                                 {!! Form::text('tipo_paciente',null,['class'=>'form-control', 'required']) !!}
                             </div>
                             <div class="form-group">
-                                {!!Form::label('medico_id', ' medico') !!}
+                                {!!Form::label('medico_id', ' Clínico') !!}
                                 <br>
                                 {!! Form::select('medico_id', $medicos, ['class' => 'form-control']) !!}
                             </div>
