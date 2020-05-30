@@ -14,6 +14,7 @@
                         <div class="form-group">
                             {!! Form::label('pregunta', 'Pregunta') !!}
                             {!! Form::text('pregunta',null,['class'=>'form-control', 'required','autofocus'])!!}
+
                         </div>
                         <br>
 

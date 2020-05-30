@@ -16,6 +16,14 @@ class Paciente extends  Model
         return $this->hasOne('App\Medico', 'id', 'medico_id');
 
     }
+    public function Encuesta_EQD5(){
+        return $this->hasOne('App\Encuesta_EQD5');
+
+    }
+
+
+
+
     public function paso()
     {
         return $this->hasMany('App\Paso');

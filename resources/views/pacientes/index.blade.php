@@ -89,16 +89,14 @@
 
 
 
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div id="myDiv">
 
-                </div>
-            </div>
-
-
-            <div class="panel panel-default">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="myDiv">
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
                 <div class="panel-heading">Pacientes</div>
 
 
@@ -108,7 +106,7 @@
 
 
                         {!! Form::open(['route' => 'pacientes.create', 'method' => 'get']) !!}
-                        {!!     Form::submit('Crear datos del paciente', ['class'=> 'btn btn-primary'])!!}
+                        {!!     Form::submit('Añadir paciente', ['class'=> 'btn btn-primary'])!!}
                         {!! Form::close() !!}
                         <div class="panel panel-dos">
 
@@ -142,8 +140,10 @@
 
 
                     <br><br>
-                        <table class="table table-striped table-bordered">
-                            <tr>
+
+                    <table class="table table-striped table-bordered">
+
+                            <thead>
                                 <th>Nombre</th>
                                 <th>Apellidos</th>
                                 <th>Email</th>
@@ -157,6 +157,7 @@
                                 <th>Clínico</th>
                                 <th colspan="2">Acciones</th>
                             </tr>
+                            </thead>
 
                             @foreach ($pacientes as $paciente)
 

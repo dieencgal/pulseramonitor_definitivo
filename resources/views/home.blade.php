@@ -161,7 +161,7 @@
 
 
                         <a href="{{  url('import') }}" class="btn btn-primary">Importar</a>
-                        <small>Importar datos de usuarios sanos</small>
+                        <small>Importar datos de población sana</small>
                         <br><br>
 
 

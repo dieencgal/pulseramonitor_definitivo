@@ -31,6 +31,7 @@ Route::resource('registro_suenos', 'Registro_suenoController');
 Route::resource('videos', 'VideoController');
 Route::resource('encuesta','EncuestaController');
 Route::resource('respuesta','RespuestaController');
+Route::resource('encuesta_eqd5','EncuestaEQD5Controller');
 
 
 Route::get('login2','HomeController@login2');
@@ -83,6 +84,9 @@ Route::get('/search5','PacienteController@videos');
 Route::get('videosindex',  'VideoController@index');
 
 Route::get('/creat',  'PacienteController@index');
+Route::get('Encuestas', function () {
+    return view('Encuestas');
+});
 
 
 

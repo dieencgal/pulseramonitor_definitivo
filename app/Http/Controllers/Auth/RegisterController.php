@@ -30,21 +30,9 @@ class RegisterController extends Controller
         ]);}
     protected function create(array $data)
     {
-        /*$user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
 
-        if(User::all()->count() < 2){
-            $user->roles()->attach(Role::where('name', 'admin')->first());
-        }else {
-
-            $user->roles()->attach(Role::where('name', 'user')->first());
-        }
-        return $user;*/
        $t=Paciente::all()->where('email',$data['email'])->count();
-        if($t==1){
+        if($t==1){ //SIGNIFICA QUE ESTÁ DADO DE ALTA
             $user = User::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
@@ -53,7 +41,7 @@ class RegisterController extends Controller
             $user->roles()->attach(Role::where('name', 'user')->first());
             return $user;
 
-        }else{
+        }else{ //EL MÉDICO ES EL PRIMERO EN REGISTRARSE
             if((User::all()->count() < 1)) {
 
                 $user = User::create([

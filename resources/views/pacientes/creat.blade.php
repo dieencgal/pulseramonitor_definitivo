@@ -171,7 +171,7 @@
                                 <th>Peso medio (kg)</th>
                                 <th>Recuento de minutos activos</th>
                                 <th>Andar duración(h)</th>
-                                <th>Dormir duracion(h))</th>
+                                <th>Dormir duracion(h)</th>
                             </tr>
                             </thead>
                             <tbody>

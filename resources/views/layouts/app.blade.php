@@ -86,13 +86,8 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{{ url('/encuesta') }}">
-                                            Cuestionario
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ url('/respuesta') }}">
-                                            resp
+                                        <a href="{{ url('Encuestas') }}">
+                                            Encuestas
                                         </a>
                                     </li>
                                     <li>
@@ -125,6 +120,7 @@
                                         Pasos
                                     </a>
                                 </li>
+
                                 <li>
                                     <a href="{{ url('/registro_suenos') }}">
                                         Registro Sueños
@@ -140,6 +136,11 @@
                                 <li>
                                     <a href="{{ url('/videosindex') }}">
                                         Guía de ejercicios recomendados
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('/Encuestas') }}">
+                                        Encuestas
                                     </a>
                                 </li>
 
