@@ -68,12 +68,25 @@
             background-image: none;
             background-color: white;
             color: darkcyan;
+            width: 1250px;
+
 
         }
         .panel-dos{
             font-size: 17px;
             font-weight: 600;
             color: #c7254e;
+            width: 1200px;
+
+        }
+        .panel-body{
+            width: 1250px;
+
+
+
+        }
+        .panel-default{
+            width: 1250px;
 
         }
         .col-md-4{
@@ -141,7 +154,7 @@
 
                     <br><br>
 
-                    <table class="table table-striped table-bordered">
+                    <table class="table table-sm">
 
                             <thead>
                                 <th>Nombre</th>

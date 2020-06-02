@@ -129,7 +129,7 @@
                                     <td>{{ $medico->Actividades_dia }}</td>
                                     <td>{{ $medico->Dolor_malestar }}</td>
                                     <td>{{ $medico->Ansiedad_depresion }}</td>
-                                    <td>{{ Auth::user()->id-1 }}</td>
+                                    <td>{{ $medico->paciente_id }}</td>
 
 
 

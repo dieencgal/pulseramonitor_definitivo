@@ -115,7 +115,7 @@
                     Evalúe su calidad de vida a día de hoy
                     </div>
                     <br><br>
-                    <a href="{{  url('import') }}" class="btn btn-primary">Oswestry</a>
+                    <a href="{{  url('/encuesta_oswestry') }}" class="btn btn-primary">Oswestry</a>
                     <div>
                         Escala Visual Analógica de dolor lumbar y de dolor en miembro inferior
                     </div>

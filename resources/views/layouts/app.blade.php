@@ -86,7 +86,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{{ url('Encuestas') }}">
+                                        <a href="{{ url('todas_encuestas') }}">
                                             Encuestas
                                         </a>
                                     </li>

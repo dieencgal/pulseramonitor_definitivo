@@ -32,6 +32,7 @@ Route::resource('videos', 'VideoController');
 Route::resource('encuesta','EncuestaController');
 Route::resource('respuesta','RespuestaController');
 Route::resource('encuesta_eqd5','EncuestaEQD5Controller');
+Route::resource('encuesta_oswestry','Encuesta_OswestryController');
 
 
 Route::get('login2','HomeController@login2');
@@ -68,8 +69,11 @@ Route::get('/ejercicios', function () {
     return view('ejercicios');
 });
 
+
+
 Route::get('grafica',  'PacienteController@comparacion');
 Route::get('grafica2',  'PacienteController@comparacion2');
+Route::get('todas_encuestas',  'Encuesta_OswestryController@cuestionarios');
 Route::get('grafica3',  'PacienteController@comparacion3');
 Route::get('grafica4',  'PacienteController@comparacion4');
 

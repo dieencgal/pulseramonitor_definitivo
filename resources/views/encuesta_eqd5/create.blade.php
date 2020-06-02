@@ -106,28 +106,28 @@
                         </div>
                         <div class="form-group">
                             {!! Form::label('Cuidado_personal', 'Cuidado personal') !!}
-                            <br>
+                            <br><br>
                             {!! Form::select('Cuidado_personal',['No tengo problemas con el cuidado personal','Tengo algunos problemas para lavarme o vestirme solo','Soy incapaz de lavarme o vestirme solo'],['class'=>'form-control'])!!}
                         </div>
                         <div class="form-group">
                             {!! Form::label('Actividades_dia', 'Actividades del día a día') !!}
-                            <br>
+                            <br><br>
                             {!! Form::select('Actividades_dia',['No tengo problemas para realizar mis actividades de todos los días','Tengo algunos problemas para realizar mis actividades de todos los días','Soy incapaz de realizar mis actividades de todos los días'],['class'=>'form-control'])!!}
                         </div>
                         <div class="form-group">
                             {!! Form::label('Dolor_malestar', 'Dolor/Malestar') !!}
-                            <br>
+                            <br><br>
                             {!! Form::select('Dolor_malestar',['No tengo dolor ni malestar','Tengo moderado dolor o malestar','Tengo mucho dolor o malestar'],['class'=>'form-control'])!!}
                         </div>
                         <div class="form-group">
                             {!! Form::label('Ansiedad_depresion', 'Ansiedad/Depresión') !!}
-                            <br>
+                            <br><br>
                             {!! Form::select('Ansiedad_depresion',['No estoy ansioso/a ni deprimido/a','Estoy moderadamente ansioso/a o deprimido/a','Estoy muy ansioso/a o deprimido/a'],['class'=>'form-control'])!!}
                         </div>
                         <div class="form-group">
                             {!!Form::label('paciente_id', 'ID') !!}
-                            <br>
-                            {!! Form::text('paciente_id', Auth::user()->id-1) !!}
+
+                            {!! Form::text('paciente_id', Auth::user()->id-1,['class'=>'form-control']) !!}
                         </div>
 
                         <br>

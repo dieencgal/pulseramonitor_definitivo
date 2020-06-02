@@ -80,6 +80,9 @@
             background-color: white;
             margin-bottom: 3px;
         }
+        .container{
+            margin-left: 10px;
+        }
 
 
 
@@ -89,40 +92,52 @@
 
 
 
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
+    <div class="container"style="width: 100%" >
+        <div class="row"style="width: 100%" >
+            <div class="col-lg-12"style="width: 100%" >
                 <div id="myDiv">
                 </div>
             </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">Encuesta EQ-D5</div>
+            <div class="panel panel-default" style="width: 100%">
+                    <div class="panel-heading">Cuestionario OSWESTRY</div>
 
                     <div class="panel-body">
                         @include('flash::message')
                         @if(Auth::user()->hasRole('user'))
-                        {!! Form::open(['route' => 'encuesta_eqd5.create', 'method' => 'get', 'class'=>'inline-important']) !!}
+                        {!! Form::open(['route' => 'encuesta_oswestry.create', 'method' => 'get', 'class'=>'inline-important']) !!}
+                            {!!   Form::submit('Realizar cuestionario', ['class'=> 'btn btn-primary'])!!}
+                            {!! Form::close() !!}
                         @endif
-                        {!!   Form::submit('Encuestas', ['class'=> 'btn btn-primary'])!!}
-                        {!! Form::close() !!}
+
+
 
 
 
                         <br><br>
-                        <table class="table table-responsive table-hover" width="100%">
+                        <br><br>
+                        <div class="table-responsive " style="width: 100%">
+
+
+                            <table class="table table-responsive table-hover" style="width: 1500px;" >
                             <td style ="word-break:break-all;">
                                 <thead>
-
                                 <tr>
-                                <th>Movilidad</th>
-                                <th>Cuidado-Personal</th>
-                                <th>Actividades del día a día</th>
-                                <th>Dolor/Malestar</th>
-                                <th>Ansiedad/Depresión</th>
+                                <th>Indique la intensidad de su dolor de espalda (lumbar) en las últimas 4 semanas</th>
+                                <th>Indique la intensidad de su dolor de pierna (ciática) en las últimas 4 semanas</th>
+                                <th>Intensidad del dolor (generalizado)</th>
+                                <th>Cuidados personales</th>
+                                <th>Estar de pie</th>
+                                <th>Dormir</th>
+                                <th>Levantar peso</th>
+                                <th>Actividad sexual</th>
+                                <th>Andar</th>
+                                <th>Vida social</th>
+                                <th>Estar sentado</th>
+                                <th>Viajar</th>
                                 <th>ID del paciente</th>
-
-
                                 <th colspan="2">Acciones</th>
+
+
                             </tr>
                                 </thead>
 
@@ -130,29 +145,37 @@
 
 
                                 <tr>
-                                    <td>{{ $medico->Movilidad }}</td>
-                                    <td>{{ $medico->Cuidado_personal }}</td>
-                                    <td>{{ $medico->Actividades_dia}}</td>
-                                    <td>{{ $medico->Dolor_malestar }}</td>
-                                    <td>{{ $medico->Ansiedad_depresion }}</td>
+                                    <td>{{ $medico->Intensidad_dolor_espalda_lumbar_4sem }}</td>
+                                    <td>{{ $medico->Intensidad_dolor_pierna_ciatica_4sem }}</td>
+                                    <td>{{ $medico->Intensidad_dolor}}</td>
+                                    <td>{{ $medico->Cuidados_personales}}</td>
+                                    <td>{{ $medico->Estar_de_pie}}</td>
+                                    <td>{{ $medico->Dormir}}</td>
+                                    <td>{{ $medico->Levantar_peso}}</td>
+                                    <td>{{ $medico->Actividad_sexual}}</td>
+                                    <td>{{ $medico->Andar }}</td>
+                                    <td>{{ $medico->Vida_social }}</td>
+                                    <td>{{ $medico->Estar_sentado }}</td>
+                                    <td>{{ $medico->Viajar }}</td>
                                     <td>{{ $medico->paciente_id }}</td>
 
 
 
 
                                     <td>
-                                        {!! Form::open(['route' => ['encuesta_eqd5.edit',$medico->id], 'method' => 'get']) !!}
+                                        {!! Form::open(['route' => ['encuesta_oswestry.edit',$medico->id], 'method' => 'get']) !!}
                                         {!!   Form::submit('Editar', ['class'=> 'btn btn-warning'])!!}
                                         {!! Form::close() !!}
                                     </td>
                                     <td>
-                                        {!! Form::open(['route' => ['encuesta_eqd5.destroy',$medico->id], 'method' => 'delete']) !!}
+                                        {!! Form::open(['route' => ['encuesta_eqd5.oswestry',$medico->id], 'method' => 'delete']) !!}
                                         {!!   Form::submit('Borrar', ['class'=> 'btn btn-danger' ,'onclick' => 'if(!confirm("¿Está seguro?"))event.preventDefault();'])!!}
                                         {!! Form::close() !!}
 
                                     </td>
                                 </tr>
                             @endforeach
+                            </div>
                         </table>
                     </div>
                 </div>

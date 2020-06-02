@@ -70,7 +70,7 @@
             color: darkcyan;
 
         }
-        .panel-dos{
+        .panel-dos {
             font-size: 17px;
             font-weight: 600;
             color: #c7254e;

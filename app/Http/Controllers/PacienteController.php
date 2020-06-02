@@ -374,7 +374,7 @@ class PacienteController extends Controller
             }
 
 
-            $char = Charts::multi('line', 'highcharts')
+            /*$char = Charts::multi('line', 'highcharts')
                 ->title("Comparación de pasos frente al resto de pacientes")
                 ->responsive(true)
                 ->dimensions(0, 400) // Width x Height
@@ -382,7 +382,7 @@ class PacienteController extends Controller
                 ->yAxisTitle("Recuento de pasos")
                 ->dataset('Tus pasos',$data)
                 ->dataset('Media de pasos del resto de usuarios',$data1)
-                ->labels($fecha);
+                ->labels($fecha);*/
 
             $chart3= Charts::multi('line', 'highcharts')
                 ->responsive(true)
@@ -432,7 +432,7 @@ class PacienteController extends Controller
 
 
 
-            return view('grafica2',['chart'=>$chart,'chart2'=>$chart2,'chart3'=>$chart3,'char'=>$char,'usersChart'=>$usersChart]);
+            return view('grafica2',['chart'=>$chart,'chart2'=>$chart2,'chart3'=>$chart3,'usersChart'=>$usersChart]);
 
         /*}else{
             $id=Auth::user()->id-1;
