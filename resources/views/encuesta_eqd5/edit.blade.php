@@ -124,7 +124,7 @@
                         <div class="form-group">
                             {!!Form::label('paciente_id', 'Paciente') !!}
 
-                            {!! Form::text('paciente_id', Auth::user()->id-1,null,['class'=>'form-control']) !!}
+                            {!! Form::text('paciente_id', Auth::user()->id-1,null,['readonly']) !!}
                         </div>
 
 

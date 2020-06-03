@@ -139,9 +139,7 @@
         @endif
                 <div class="panel-body">
                         @include('flash::message')
-                        {!! Form::open(['route' => 'frecuencia_cardiacas.create', 'method' => 'get']) !!}
-                        {!!     Form::submit('Crear frecuencia cardiaca', ['class'=> 'btn btn-primary'])!!}
-                        {!! Form::close() !!}
+
                     @if ((Auth::user()->hasRole('admin')))
 
                         <br><br>
@@ -161,8 +159,10 @@
                                 <th>Frecuencia cardiaca media</th>
                                 <th>Frecuencia cardiaca max</th>
                                 <th>Frecuencia cardiaca min</th>
-                                <th>Paciente</th>
+                                <th>ID</th>
+                                @if ((Auth::user()->hasRole('admin')))
                                 <th colspan="2">Acciones</th>
+                                    @endif
                             </tr>
                             @foreach ($frecuencia_cardiacas as $frecuencia_cardiaca)
                                 <tr>
@@ -171,6 +171,7 @@
                                     <td>{{ $frecuencia_cardiaca->frec_cardiaca_max }}</td>
                                     <td>{{ $frecuencia_cardiaca->frec_cardiaca_min }}</td>
                                     <td>{{ $frecuencia_cardiaca->paciente_id}}</td>
+                                    @if ((Auth::user()->hasRole('admin')))
                                     <td>
                                         {!! Form::open(['route' => ['frecuencia_cardiacas.edit',$frecuencia_cardiaca->id], 'method' => 'get']) !!}
                                         {!!   Form::submit('Editar', ['class'=> 'btn btn-warning'])!!}
@@ -181,6 +182,7 @@
                                         {!!   Form::submit('Borrar', ['class'=> 'btn btn-danger' ,'onclick' => 'if(!confirm("¿Está seguro?"))event.preventDefault();'])!!}
                                         {!! Form::close() !!}
                                     </td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </table>

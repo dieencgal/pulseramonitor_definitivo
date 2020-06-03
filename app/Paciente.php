@@ -24,6 +24,10 @@ class Paciente extends  Model
         return $this->hasOne('App\Encuesta_Oswestry');
 
     }
+    public function Encuesta_NRSPain(){
+        return $this->hasOne('App\Encuesta_NRSPain');
+
+    }
 
 
 

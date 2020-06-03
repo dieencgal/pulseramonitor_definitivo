@@ -163,7 +163,7 @@
                         <div class="form-group">
                             {!!Form::label('paciente_id', 'ID') !!}
 
-                            {!! Form::text('paciente_id', Auth::user()->id-1,['class'=>'form-control']) !!}
+                            {!! Form::text('paciente_id', Auth::user()->id-1,['readonly']) !!}
                         </div>
 
 

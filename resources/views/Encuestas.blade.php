@@ -94,7 +94,7 @@
                 </div>
             </div>
             <div class="panel panel-default">
-                <div class="panel-heading">Encuestas disponibles</div>
+                <div class="panel-heading">Cuestionarios</div>
 
                 <div class="panel-body">
                     @include('flash::message')
@@ -105,19 +105,19 @@
 
                     <br>
 
-                    <a href="{{  url('import') }}" class="btn btn-primary">NRS-Pain</a>
+                    <a href="{{  url('/encuesta_nrspain') }}" class="btn btn-primary">NRS-Pain</a>
                     <div>
-                        Evalúe el nivel de dolor que padece
+                        Evalúe el nivel de dolor que padece (Escala numérica según la intensidad del dolor)
                     </div>
                     <br><br>
-                    <a href="{{ url('/encuesta_eqd5') }}" class="btn btn-primary">Encuesta EQ-5D</a>
+                    <a href="{{ url('/encuesta_eqd5') }}" class="btn btn-primary">Cuestionario EQ-5D</a>
                     <div>
-                    Evalúe su calidad de vida a día de hoy
+                    Evalúe su calidad de vida
                     </div>
                     <br><br>
-                    <a href="{{  url('/encuesta_oswestry') }}" class="btn btn-primary">Oswestry</a>
+                    <a href="{{  url('/encuesta_oswestry') }}" class="btn btn-primary">Cuestionario Oswestry</a>
                     <div>
-                        Escala Visual Analógica de dolor lumbar y de dolor en miembro inferior
+                        Valoración del dolor y discapacidad
                     </div>
                     <br><br>
 

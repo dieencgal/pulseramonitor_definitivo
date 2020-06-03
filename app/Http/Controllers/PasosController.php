@@ -136,9 +136,10 @@ class PasosController extends Controller
                 ->values($products->pluck('num_pasos'))
                 ->dimensions(1000,500)
                 ->responsive(true);*/
+            $pacientes=Paciente::where('id',Auth::user()->id-1)->pluck('apellidos','id');
 
 
-            return view('pasos.index', ['pasos' => $pasos,'chart' => $chart]);
+            return view('pasos.index', ['pasos' => $pasos,'chart' => $chart,'pacientes'=>$pacientes]);
 
 
 

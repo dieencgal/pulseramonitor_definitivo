@@ -68,7 +68,13 @@
             background-image: none;
             background-color: white;
             color: darkcyan;
+            margin: 0;
 
+
+        }
+        .panel > .panel-default{
+            margin: 0;
+            margin-left: 0;
         }
         .panel-dos{
             font-size: 17px;
@@ -80,6 +86,9 @@
             background-color: white;
             margin-bottom: 3px;
         }
+        .container{
+            margin-left: 10px;
+        }
 
 
 
@@ -89,64 +98,65 @@
 
 
 
-    <div class="container">
+    <div class="container" style="width: 100%">
         <div class="row">
-            <div class="col-lg-12">
-                <div id="myDiv">
-                </div>
-            </div>
+            <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Encuesta EQ-D5</div>
+            <div class="panel panel-default">
+                    <div class="panel-heading">Escala NRS-PAIN (Intensidad del dolor)</div>
 
                     <div class="panel-body">
+                        <br>
+                        La escala numérica del dolor (NRS) es una escala numérica única de 11 puntos ampliamente validada en una miríada de tipos de pacientes. Los datos obtenidos a través de NRS se documentan fácilmente,
+                        son intuitivamente interpretables y cumplen con los requisitos reglamentarios para la evaluación y documentación del dolor.
+
+                        <br>
+                        <img src="img/dolor.jpg" />
+                        <br>
                         @include('flash::message')
-                        @if(Auth::user()->hasRole('user'))
-                        {!! Form::open(['route' => 'encuesta_eqd5.create', 'method' => 'get', 'class'=>'inline-important']) !!}
-                        @endif
-                        {!!   Form::submit('Hacer cuestionario', ['class'=> 'btn btn-primary'])!!}
-                        {!! Form::close() !!}
 
 
 
                         <br><br>
-                        <table class="table table-responsive table-hover" width="100%">
-                            <td style ="word-break:break-all;">
+
+
+
+                        <table class="table table-bordered table-hover" >
+
                                 <thead>
 
-                                <tr>
-                                <th>Movilidad</th>
-                                <th>Cuidado-Personal</th>
-                                <th>Actividades del día a día</th>
-                                <th>Dolor/Malestar</th>
-                                <th>Ansiedad/Depresión</th>
-                                <th>ID del paciente</th>
 
 
-                                <th colspan="2">Acciones</th>
-                            </tr>
+                                    <th width=200px>Nivel de dolor</th>
+                                    <th width=200px>ID del paciente</th>
+                                    <th width=200px colspan="1">Acciones</th>
+
+
+
+
+                                </tr>
                                 </thead>
 
-                            @foreach ($show as $medico)
+                                @foreach ($show as $medico)
 
 
-                                <tr>
-                                    <td>{{ $medico->Movilidad }}</td>
-                                    <td>{{ $medico->Cuidado_personal }}</td>
-                                    <td>{{ $medico->Actividades_dia}}</td>
-                                    <td>{{ $medico->Dolor_malestar }}</td>
-                                    <td>{{ $medico->Ansiedad_depresion }}</td>
-                                    <td>{{ $medico->paciente_id }}</td>
+                                    <tr>
+                                        <td>{{ $medico->Nivel_dolor }}</td>
+
+                                        <td>{{ $medico->paciente_id }}</td>
+
+
 
 
 
 
                                     <td>
-                                        {!! Form::open(['route' => ['encuesta_eqd5.edit',$medico->id], 'method' => 'get']) !!}
+                                        {!! Form::open(['route' => ['encuesta_nrspain.edit',$medico->id], 'method' => 'get']) !!}
                                         {!!   Form::submit('Editar', ['class'=> 'btn btn-warning'])!!}
                                         {!! Form::close() !!}
-                                    </td>
-                                    <td>
-                                        {!! Form::open(['route' => ['encuesta_eqd5.destroy',$medico->id], 'method' => 'delete']) !!}
+
+
+                                        {!! Form::open(['route' => ['encuesta_nrspain.destroy',$medico->id], 'method' => 'delete']) !!}
                                         {!!   Form::submit('Borrar', ['class'=> 'btn btn-danger' ,'onclick' => 'if(!confirm("¿Está seguro?"))event.preventDefault();'])!!}
                                         {!! Form::close() !!}
 
@@ -154,6 +164,7 @@
                                 </tr>
                             @endforeach
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>

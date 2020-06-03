@@ -86,11 +86,11 @@
 
 
 
-    <div class="container">
+    <div class="container" style="width: 90%; "  >
 
         <div class="row">
 
-                <div class="panel panel-default">
+                <div class="panel panel-default" style="width: 100%">
                     <div class="panel-heading">Pulsera Monitor</div>
 
 

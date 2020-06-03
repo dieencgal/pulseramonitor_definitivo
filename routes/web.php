@@ -33,6 +33,8 @@ Route::resource('encuesta','EncuestaController');
 Route::resource('respuesta','RespuestaController');
 Route::resource('encuesta_eqd5','EncuestaEQD5Controller');
 Route::resource('encuesta_oswestry','Encuesta_OswestryController');
+Route::resource('encuesta_nrspain','Encuesta_NRSPainController');
+
 
 
 Route::get('login2','HomeController@login2');

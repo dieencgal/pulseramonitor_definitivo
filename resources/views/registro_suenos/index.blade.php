@@ -144,16 +144,13 @@
             </body>
             </html>
         @endif
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+
                 <div class="panel panel-default">
-                    <div class="panel-heading">Registro sueño</div>
+
 
                     <div class="panel-body">
                         @include('flash::message')
-                        {!! Form::open(['route' => 'registro_suenos.create', 'method' => 'get']) !!}
-                        {!!     Form::submit('Crear registro de sueño', ['class'=> 'btn btn-primary'])!!}
-                        {!! Form::close() !!}
+
 
                         <br><br>
                         @if ((Auth::user()->hasRole('admin')))
@@ -171,11 +168,14 @@
                         </div>
                         @endif
                         <table class="table table-striped table-bordered">
+
                             <tr>
                                 <th>Fecha</th>
                                 <th>Horas de sueño</th>
-                                <th>Paciente</th>
+                                <th>ID</th>
+                                @if ((Auth::user()->hasRole('admin')))
                                 <th colspan="2">Acciones</th>
+                                    @endif
                             </tr>
 
                             @foreach ($registro_suenos as $registro_sueno)
@@ -185,6 +185,7 @@
                                     <td>{{ $registro_sueno->fecha }}</td>
                                     <td>{{ $registro_sueno->horas_sueno}}</td>
                                     <td>{{ $registro_sueno->paciente->id }}</td>
+                                    @if ((Auth::user()->hasRole('admin')))
                                     <td>
                                         {!! Form::open(['route' => ['registro_suenos.edit',$registro_sueno->id], 'method' => 'get']) !!}
                                         {!!   Form::submit('Editar', ['class'=> 'btn btn-warning'])!!}
@@ -196,6 +197,7 @@
                                         {!! Form::close() !!}
 
                                     </td>
+                                        @endif
                                 </tr>
                             @endforeach
                         </table>

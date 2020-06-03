@@ -148,9 +148,7 @@
 
                     <div class="panel-body">
                         @include('flash::message')
-                        {!! Form::open(['route' => 'pasos.create', 'method' => 'get']) !!}
-                        {!!     Form::submit('Crear pasos', ['class'=> 'btn btn-primary'])!!}
-                        {!! Form::close() !!}
+
 
                         <br><br>
                         @if ((Auth::user()->hasRole('admin')))
@@ -176,8 +174,10 @@
                                 <th>Fecha</th>
                                 <th>Distancia</th>
                                 <th>Número de pasos</th>
-                                <th>Paciente</th>
+                                <th>ID</th>
+                                @if ((Auth::user()->hasRole('admin')))
                                 <th colspan="2">Acciones</th>
+                                    @endif
                             </tr>
 
                             @foreach ($pasos as $paso)
@@ -189,7 +189,7 @@
                                     <td>{{ $paso->num_pasos }}</td>
                                     <td>{{ $paso->paciente_id}}</td>
 
-
+                                    @if ((Auth::user()->hasRole('admin')))
                                     <td>
 
 
@@ -203,6 +203,7 @@
                                         {!! Form::close() !!}
 
                                     </td>
+                                        @endif
 
                                 </tr>
                             @endforeach

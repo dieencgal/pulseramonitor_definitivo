@@ -93,41 +93,23 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Preguntas</div>
+                    <div class="panel-heading">NRS-Pain/Escala del dolor</div>
 
                     <div class="panel-body">
                         @include('flash::message')
 
-                        {!! Form::open(['route' => 'encuesta_eqd5.store']) !!}
+                        {!! Form::open(['route' => 'encuesta_nrspain.store']) !!}
+
+
                         <div class="form-group">
-                            {!!Form::label('Movilidad', 'Movilidad' )!!}
-                            <br>
-                            {!! Form::select('Movilidad', ['Seleccione una respuesta','No tengo problemas para caminar','Tengo algunos problemas para caminar','Tengo que estar en la cama'],null, ['class' => 'form-control']) !!}
-                        </div>
-                        <div class="form-group">
-                            {!! Form::label('Cuidado_personal', 'Cuidado personal') !!}
+                            {!! Form::label('Nivel_dolor', 'La Escala de calificación numérica (NRS-Pain) es una escala de 11 puntos para el autoinforme de dolor del paciente. Se basa únicamente en la capacidad de realizar actividades de la vida diaria. Señale en la siguiente escala la intensidad del dolor que sufre  ') !!}
                             <br><br>
-                            {!! Form::select('Cuidado_personal',['Seleccione una respuesta','No tengo problemas con el cuidado personal','Tengo algunos problemas para lavarme o vestirme solo','Soy incapaz de lavarme o vestirme solo'],null,['class'=>'form-control'])!!}
-                        </div>
-                        <div class="form-group">
-                            {!! Form::label('Actividades_dia', 'Actividades del día a día') !!}
-                            <br><br>
-                            {!! Form::select('Actividades_dia',['Seleccione una respuesta','No tengo problemas para realizar mis actividades de todos los días','Tengo algunos problemas para realizar mis actividades de todos los días','Soy incapaz de realizar mis actividades de todos los días'],null,['class'=>'form-control'])!!}
-                        </div>
-                        <div class="form-group">
-                            {!! Form::label('Dolor_malestar', 'Dolor/Malestar') !!}
-                            <br><br>
-                            {!! Form::select('Dolor_malestar',['Seleccione una respuesta','No tengo dolor ni malestar','Tengo moderado dolor o malestar','Tengo mucho dolor o malestar'],null,['class'=>'form-control'])!!}
-                        </div>
-                        <div class="form-group">
-                            {!! Form::label('Ansiedad_depresion', 'Ansiedad/Depresión') !!}
-                            <br><br>
-                            {!! Form::select('Ansiedad_depresion',['Seleccione una respuesta','No estoy ansioso/a ni deprimido/a','Estoy moderadamente ansioso/a o deprimido/a','Estoy muy ansioso/a o deprimido/a'],null,['class'=>'form-control'])!!}
+                            {!! Form::select('Nivel_dolor',[0 => value(' (0) Sin dolor') ,1=>value(' (1) Dolor leve (interfiere levemente con las actividades de la vida diaria'),2=>value(' (2) Dolor leve (interfiere levemente con las actividades de la vida diaria'),3=>value(' (3) Dolor leve (interfiere levemente con las actividades de la vida diaria'),4=>value(' (4) Dolor moderado (interfiere significativamente con las actividades de la vida diaria'),5=>value(' (5) Dolor moderado (interfiere significativamente con las actividades de la vida diaria'),6=>value(' (6) Dolor moderado (interfiere significativamente con las actividades de la vida diaria'),7=>value(' (7) Dolor severo (incapacitante; incapaz de realizar las actividades de la vida diaria)'),8=>value(' (8) Dolor severo (incapacitante; incapaz de realizar las actividades de la vida diaria)'),9=>value(' (9) Dolor severo (incapacitante; incapaz de realizar las actividades de la vida diaria)'),10=>value(' (10) Dolor severo (incapacitante; incapaz de realizar las actividades de la vida diaria)')], null,['class' => 'form-control'])!!}
                         </div>
                         <div class="form-group">
                             {!!Form::label('paciente_id', 'ID') !!}
 
-                            {!! Form::text('paciente_id', Auth::user()->id-1, ['readonly']) !!}
+                            {!! Form::text('paciente_id', Auth::user()->id-1,['readonly']) !!}
                         </div>
 
                         <br>
