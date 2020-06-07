@@ -99,7 +99,7 @@
 
     </style>
 
-    <body>
+
 
 
 
@@ -131,7 +131,7 @@
                                             <th>Dolor/Malestar</th>
                                             <th>Ansiedad/Depresión</th>
                                             <th>ID del paciente</th>
-                                            <th colspan="2">Acciones</th>
+                                            <th colspan="1">Acciones</th>
                                         </tr>
                                         </thead>
 
@@ -149,11 +149,7 @@
 
 
 
-                                                <td>
-                                                    {!! Form::open(['route' => ['encuesta_eqd5.edit',$medico->id], 'method' => 'get']) !!}
-                                                    {!!   Form::submit('Editar', ['class'=> 'btn btn-warning'])!!}
-                                                    {!! Form::close() !!}
-                                                </td>
+
                                                 <td>
                                                     {!! Form::open(['route' => ['encuesta_eqd5.destroy',$medico->id], 'method' => 'delete']) !!}
                                                     {!!   Form::submit('Borrar', ['class'=> 'btn btn-danger' ,'onclick' => 'if(!confirm("¿Está seguro?"))event.preventDefault();'])!!}
@@ -163,6 +159,7 @@
                                             </tr>
                                     @endforeach
                                 </table>
+                                <br>
 
                                             <div class="panel-heading">Cuestionarios OSWESTRY</div>
 
@@ -174,8 +171,8 @@
 
 
 
-                                                <table class="table table-responsive table-hover" style="width: 1500px;" >
-                                                    <td style ="word-break:break-word">
+                                                <table class="table table-responsive table-hover" width="100%">
+                                                    <td style ="word-break:break-all;">
                                                         <thead>
 
                                                         <tr style="word-wrap: break-word">
@@ -192,8 +189,12 @@
                                                             <th width=200px>Vida social</th>
                                                             <th width=200px>Estar sentado</th>
                                                             <th width=200px>Viajar</th>
+                                                            <th width=200px style="color:red">Resultado</th>
                                                             <th width=200px>ID del paciente</th>
-                                                            <th colspan="2">Acciones</th>
+
+
+
+                                                            <th colspan="1">Acciones</th>
 
 
 
@@ -217,18 +218,19 @@
                                                                 <td>{{ $medico->Vida_social }}</td>
                                                                 <td>{{ $medico->Estar_sentado }}</td>
                                                                 <td>{{ $medico->Viajar }}</td>
+                                                                <td style="color:red">{{ $medico->Intensidad_dolor_espalda_lumbar_4sem + $medico->Intensidad_dolor_pierna_ciatica_4sem
+                                                                + $medico->Intensidad_dolor + $medico->Cuidados_personales + $medico->Estar_de_pie +
+                                                                 $medico->Dormir + $medico->Levantar_peso + $medico->Actividad_sexual + $medico->Andar +
+                                                                 $medico->Vida_social + $medico->Estar_sentado + $medico->Viajar}}</td>
+
                                                                 <td>{{ $medico->paciente_id }}</td>
 
-                                                                <td style="word-wrap: break-word;"></td>
 
 
 
 
-                                                                <td>
-                                                                    {!! Form::open(['route' => ['encuesta_oswestry.edit',$medico->id], 'method' => 'get']) !!}
-                                                                    {!!   Form::submit('Editar', ['class'=> 'btn btn-warning'])!!}
-                                                                    {!! Form::close() !!}
-                                                                </td>
+
+
                                                                 <td>
                                                                     {!! Form::open(['route' => ['encuesta_oswestry.destroy',$medico->id], 'method' => 'delete']) !!}
                                                                     {!!   Form::submit('Borrar', ['class'=> 'btn btn-danger' ,'onclick' => 'if(!confirm("¿Está seguro?"))event.preventDefault();'])!!}
@@ -236,6 +238,52 @@
 
                                                                 </td>
                                                             </tr>
+                                                    @endforeach
+                                                </table>
+                                                <br>
+                                                <div class="panel-heading">Cuestionarios NRS-Pain</div>
+
+                                                <div class="panel-body">
+                                                    <table class="table table-responsive table-hover" >
+
+
+                                                    <thead>
+
+
+
+                                                    <th width=200px>Nivel de dolor</th>
+                                                    <th width=200px>ID del paciente</th>
+                                                    <th width=200px colspan="1">Acciones</th>
+
+
+
+
+                                                    </tr>
+                                                    </thead>
+
+                                                    @foreach ($show3 as $medico)
+
+
+                                                        <tr>
+                                                            <td>{{ $medico->Nivel_dolor }}</td>
+
+                                                            <td>{{ $medico->paciente_id }}</td>
+
+
+
+
+
+
+
+                                                            <td>
+
+
+                                                                {!! Form::open(['route' => ['encuesta_nrspain.destroy',$medico->id], 'method' => 'delete']) !!}
+                                                                {!!   Form::submit('Borrar', ['class'=> 'btn btn-danger' ,'onclick' => 'if(!confirm("¿Está seguro?"))event.preventDefault();'])!!}
+                                                                {!! Form::close() !!}
+
+                                                            </td>
+                                                        </tr>
                                                     @endforeach
                                                 </table>
 

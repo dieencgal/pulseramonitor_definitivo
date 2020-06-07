@@ -1066,7 +1066,43 @@ class PacienteController extends Controller
     {   if ((Auth::user()->hasRole('admin'))) {
 
         $paciente = Paciente::find($id);
+        dd($paciente);
         $paciente->delete();
+        $user= User::find($id+1);
+        $user->delete();
+        if(DB::table('users')->where('id', $id+1)->count() >0){
+            DB::table('users')->where('id', $id+1)->delete();
+
+
+        }
+        if(DB::table('pacientes')->where('id', $id)->count() > 0){
+        DB::table('pacientes')->where('id', $id)->delete();
+        }
+        if(DB::table('pasos')->where('paciente_id', $id)->count()>0) {
+            DB::table('pasos')->where('paciente_id', $id)->delete();
+        }
+        if(DB::table('registro_suenos')->where('paciente_id', $id)->count()>0) {
+            DB::table('registro_suenos')->where('paciente_id', $id)->delete();
+        }
+        if(DB::table('frecuencia_cardiacas')->where('paciente_id', $id)->count()>0) {
+            DB::table('frecuencia_cardiacas')->where('paciente_id', $id)->delete();
+        }
+        if(DB::table('videos')->where('paciente_id', $id)->count()>0) {
+            DB::table('videos')->where('paciente_id', $id)->delete();
+        }
+        if(DB::table('encuesta__oswestries')->where('paciente_id', $id)->count()>0) {
+            DB::table('encuesta__oswestries')->where('paciente_id', $id)->delete();
+        }
+        if(DB::table('encuesta__n_r_s_pains')->where('paciente_id', $id)->count()>0) {
+            DB::table('encuesta__n_r_s_pains')->where('paciente_id', $id)->delete();
+        }
+        if(DB::table('encuesta__e_q_d5_s')->where('paciente_id', $id)->count()>0) {
+            DB::table('encuesta__e_q_d5_s')->where('paciente_id', $id)->delete();
+        }
+
+
+
+
         flash('paciente borrado correctamente');
 
         return redirect()->route('pacientes.index');}
