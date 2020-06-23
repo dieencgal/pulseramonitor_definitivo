@@ -38,6 +38,7 @@ Route::resource('periodo_suenos', 'Periodo_suenoController');
 
 
 
+
 Route::get('login2','HomeController@login2');
 Auth::routes();
 
@@ -94,6 +95,8 @@ Route::get('/creat',  'PacienteController@index');
 Route::get('Encuestas', function () {
     return view('Encuestas');
 });
+pjphp ollllll;
+*/
 
 
 
