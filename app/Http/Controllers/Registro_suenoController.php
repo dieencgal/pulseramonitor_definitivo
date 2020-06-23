@@ -32,7 +32,7 @@ class Registro_suenoController extends Controller
         public function index()
     {
         if ((Auth::user()->hasRole('admin'))) {
-            $registro_suenos = Registro_sueno::all();
+            $registro_suenos = Registro_sueno::all()->where('horas_sueno','>',1);
             $data = collect([]);
 
             $data1 = collect([]);// Could also be an array

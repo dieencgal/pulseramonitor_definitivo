@@ -730,7 +730,7 @@ class PacienteController extends Controller
 
             }
 
-            $frecuencia_cardiacas=Frecuencia_cardiaca::all()->where('paciente_id', $pac[0]);
+            $frecuencia_cardiacas=Frecuencia_cardiaca::all()->where('paciente_id', $pac[0])->where('frec_cardiaca_min','>',0);
             $frecuencia_cardiacas2 = Frecuencia_cardiaca::where('paciente_id', $pac[0])->where('frec_cardiaca_min', '>', 0)->where('fecha','>',Carbon::now()->subDays(28)->toDateString());
             $chart = Charts::multi('line', 'highcharts')
                 ->responsive(true)
@@ -747,7 +747,7 @@ class PacienteController extends Controller
 
             return view('frecuencia_cardiacas.index', ['frecuencia_cardiacas' => $frecuencia_cardiacas, 'chart' => $chart]);
         }else {
-            $frecuencia_cardiacas = Frecuencia_cardiaca::all();
+            $frecuencia_cardiacas = Frecuencia_cardiaca::all()->where('frec_cardiaca_min','>',0);
             $data = collect([]);
             $data2 = collect([]);
             $data1 = collect([]);// Could also be an array
@@ -1066,17 +1066,16 @@ class PacienteController extends Controller
     {   if ((Auth::user()->hasRole('admin'))) {
 
         $paciente = Paciente::find($id);
-        dd($paciente);
-        $paciente->delete();
+
+
         $user= User::find($id+1);
-        $user->delete();
-        if(DB::table('users')->where('id', $id+1)->count() >0){
-            DB::table('users')->where('id', $id+1)->delete();
 
 
+        if(DB::table('encuesta__oswestries')->where('paciente_id', $id)->count()>0) {
+            DB::table('encuesta__oswestries')->where('paciente_id', $id)->delete();
         }
-        if(DB::table('pacientes')->where('id', $id)->count() > 0){
-        DB::table('pacientes')->where('id', $id)->delete();
+        if(DB::table('encuesta__n_r_s_pains')->where('paciente_id', $id)->count()>0) {
+            DB::table('encuesta__n_r_s_pains')->where('paciente_id', $id)->delete();
         }
         if(DB::table('pasos')->where('paciente_id', $id)->count()>0) {
             DB::table('pasos')->where('paciente_id', $id)->delete();
@@ -1090,15 +1089,19 @@ class PacienteController extends Controller
         if(DB::table('videos')->where('paciente_id', $id)->count()>0) {
             DB::table('videos')->where('paciente_id', $id)->delete();
         }
-        if(DB::table('encuesta__oswestries')->where('paciente_id', $id)->count()>0) {
-            DB::table('encuesta__oswestries')->where('paciente_id', $id)->delete();
+
+        if(DB::table('pacientes')->where('id', $id)->count() > 0){
+        DB::table('pacientes')->where('id', $id)->delete();
         }
-        if(DB::table('encuesta__n_r_s_pains')->where('paciente_id', $id)->count()>0) {
-            DB::table('encuesta__n_r_s_pains')->where('paciente_id', $id)->delete();
+        $us=Paciente::all()->where('id',$id)->get('nombre');
+        File::deleteDirectory(base_path('/resources/carpetaPacientes/pendingcontacts/' . $us), true);
+        if(DB::table('users')->where('id', $id+1)->count() >0){
+            DB::table('users')->where('id', $id+1)->delete();
         }
-        if(DB::table('encuesta__e_q_d5_s')->where('paciente_id', $id)->count()>0) {
-            DB::table('encuesta__e_q_d5_s')->where('paciente_id', $id)->delete();
-        }
+
+
+
+
 
 
 

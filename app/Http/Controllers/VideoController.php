@@ -23,18 +23,11 @@ class VideoController extends Controller
     public function index()
     {
         if ((Auth::user()->hasRole('admin'))) {
-
             $videos = Video::all();
-
-
             return view('videos.index', ['videos' => $videos]);
-
         } else {
-
-                $videos = Video::all()->where('paciente_id',Auth::user()->id -1);
-
-
-                return view('ejercicios', ['videos' => $videos]);
+            $videos = Video::all()->where('paciente_id',Auth::user()->id -1);
+            return view('ejercicios', ['videos' => $videos]);
             }
         }
 

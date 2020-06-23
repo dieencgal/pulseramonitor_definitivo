@@ -10,7 +10,7 @@ class Registro_sueno extends Model
 {
     use SoftDeletes;
     protected $fillable = ['fecha','horas_sueno','paciente_id'];
-    //
+
     public function paciente()
     {
         return $this->hasOne('App\Paciente', 'id', 'paciente_id');
@@ -25,7 +25,7 @@ class Registro_sueno extends Model
 
 
 
-        return $this->fecha. '  //  ' . $this->horas_sueno . '      Perteneciente al paciente '.$this->paciente_id . '  con  '  . $pac;
+        return $this->fecha. '//' . $this->horas_sueno .'  Perteneciente al paciente '.$this->paciente_id . '  con  '. $pac;
     }
     }
 

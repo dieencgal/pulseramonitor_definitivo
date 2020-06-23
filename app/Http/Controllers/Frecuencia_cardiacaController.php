@@ -27,7 +27,7 @@ class Frecuencia_cardiacaController extends Controller
     {
 
         if ((Auth::user()->hasRole('admin'))) {
-            $frecuencia_cardiacas = Frecuencia_cardiaca::all();
+            $frecuencia_cardiacas = Frecuencia_cardiaca::all()->where('frec_cardiaca_min','>',20);
             $data = collect([]);
             $data2 = collect([]);
             $data1 = collect([]);// Could also be an array

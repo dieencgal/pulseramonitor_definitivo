@@ -44,7 +44,8 @@ class PasosController extends Controller
 
             foreach ($users as $user) {
                 // Could also be an array_push if using an array rather than a collection.
-                $data->push(Paso::all()->where('paciente_id',($user->id))->where('fecha','>',Carbon::now()->subDays(28)->toDateString())->sum('num_pasos'));
+                $data->push(Paso::all()->where('paciente_id',($user->id))->sum('num_pasos'));
+                //->where('fecha','>',Carbon::now()->subDays(28)->toDateString())
                 $data1->push("".$user->apellidos.",".$user->nombre."");
             }
 

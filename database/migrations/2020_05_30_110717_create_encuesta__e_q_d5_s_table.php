@@ -23,7 +23,8 @@ de todos los días','Tengo algunos problemas para realizar mis actividades
 de todos los días','Soy incapaz de realizar mis actividades de todos los días']);
                 $table->enum('Dolor_malestar',['No tengo dolor ni malestar','Tengo moderado dolor o malestar','Tengo mucho dolor o malestar']);
                 $table->enum('Ansiedad_depresion',['No estoy ansioso/a ni deprimido/a','Estoy moderadamente ansioso/a o deprimido/a','Estoy muy ansioso/a o deprimido/a']);
-
+                $table->unsignedInteger('paciente_id')->nullable();
+                $table->foreign('paciente_id')->references('id')->on('pacientes')->onDelete('restrict');
 
 
                 $table->timestamps();

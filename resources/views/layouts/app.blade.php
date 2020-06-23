@@ -87,7 +87,7 @@
                                     </li>
                                     <li>
                                         <a href="{{ url('todas_encuestas') }}">
-                                            Encuestas
+                                            Cuestionarios
                                         </a>
                                     </li>
                                     <li>
@@ -140,7 +140,7 @@
                                 </li>
                                 <li>
                                     <a href="{{ url('/Encuestas') }}">
-                                        Encuestas
+                                        Cuestionarios
                                     </a>
                                 </li>
 

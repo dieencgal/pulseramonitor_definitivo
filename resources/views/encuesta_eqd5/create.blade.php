@@ -102,27 +102,27 @@
                         <div class="form-group">
                             {!!Form::label('Movilidad', 'Movilidad' )!!}
                             <br>
-                            {!! Form::select('Movilidad', ['Seleccione una respuesta','No tengo problemas para caminar','Tengo algunos problemas para caminar','Tengo que estar en la cama'],null, ['class' => 'form-control']) !!}
+                            {!! Form::select('Movilidad', ['Seleccione una respuesta','No tengo problemas para caminar','Tengo algunos problemas para caminar','Tengo que estar en la cama'], ['class' => 'form-control']) !!}
                         </div>
                         <div class="form-group">
                             {!! Form::label('Cuidado_personal', 'Cuidado personal') !!}
                             <br><br>
-                            {!! Form::select('Cuidado_personal',['Seleccione una respuesta','No tengo problemas con el cuidado personal','Tengo algunos problemas para lavarme o vestirme solo','Soy incapaz de lavarme o vestirme solo'],null,['class'=>'form-control'])!!}
+                            {!! Form::select('Cuidado_personal',['Seleccione una respuesta','No tengo problemas con el cuidado personal','Tengo algunos problemas para lavarme o vestirme solo','Soy incapaz de lavarme o vestirme solo'],['class'=>'form-control'])!!}
                         </div>
                         <div class="form-group">
                             {!! Form::label('Actividades_dia', 'Actividades del día a día') !!}
                             <br><br>
-                            {!! Form::select('Actividades_dia',['Seleccione una respuesta','No tengo problemas para realizar mis actividades de todos los días','Tengo algunos problemas para realizar mis actividades de todos los días','Soy incapaz de realizar mis actividades de todos los días'],null,['class'=>'form-control'])!!}
+                            {!! Form::select('Actividades_dia',['Seleccione una respuesta','No tengo problemas para realizar mis actividades de todos los días','Tengo algunos problemas para realizar mis actividades de todos los días','Soy incapaz de realizar mis actividades de todos los días'],['class'=>'form-control'])!!}
                         </div>
                         <div class="form-group">
                             {!! Form::label('Dolor_malestar', 'Dolor/Malestar') !!}
                             <br><br>
-                            {!! Form::select('Dolor_malestar',['Seleccione una respuesta','No tengo dolor ni malestar','Tengo moderado dolor o malestar','Tengo mucho dolor o malestar'],null,['class'=>'form-control'])!!}
+                            {!! Form::select('Dolor_malestar',['Seleccione una respuesta','No tengo dolor ni malestar','Tengo moderado dolor o malestar','Tengo mucho dolor o malestar'],['class'=>'form-control'])!!}
                         </div>
                         <div class="form-group">
                             {!! Form::label('Ansiedad_depresion', 'Ansiedad/Depresión') !!}
                             <br><br>
-                            {!! Form::select('Ansiedad_depresion',['Seleccione una respuesta','No estoy ansioso/a ni deprimido/a','Estoy moderadamente ansioso/a o deprimido/a','Estoy muy ansioso/a o deprimido/a'],null,['class'=>'form-control'])!!}
+                            {!! Form::select('Ansiedad_depresion',['Seleccione una respuesta','No estoy ansioso/a ni deprimido/a','Estoy moderadamente ansioso/a o deprimido/a','Estoy muy ansioso/a o deprimido/a'],['class'=>'form-control'])!!}
                         </div>
                         <div class="form-group">
                             {!!Form::label('paciente_id', 'ID') !!}

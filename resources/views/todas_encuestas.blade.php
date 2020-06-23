@@ -111,7 +111,7 @@
                                         </div>
                                     </div>
                                     <div class="panel panel-default" style="width: 100%">
-                            <div class="panel-heading">Cuesitonarios</div>
+                            <div class="panel-heading">Cuestionarios</div>
 
                             <div class="panel-body">
                                 @include('flash::message')

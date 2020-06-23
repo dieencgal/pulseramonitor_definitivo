@@ -26,7 +26,6 @@ Route::delete('medicos/destroyAll', 'MedicoController@destroyAll')->name('medico
 Route::resource('medicos', 'MedicoController');
 Route::resource('pacientes', 'PacienteController');
 Route::resource('pasos', 'PasosController');
-Route::resource('periodo_suenos', 'Periodo_suenoController');
 Route::resource('registro_suenos', 'Registro_suenoController');
 Route::resource('videos', 'VideoController');
 Route::resource('encuesta','EncuestaController');
@@ -34,6 +33,7 @@ Route::resource('respuesta','RespuestaController');
 Route::resource('encuesta_eqd5','EncuestaEQD5Controller');
 Route::resource('encuesta_oswestry','Encuesta_OswestryController');
 Route::resource('encuesta_nrspain','Encuesta_NRSPainController');
+Route::resource('periodo_suenos', 'Periodo_suenoController');
 
 
 

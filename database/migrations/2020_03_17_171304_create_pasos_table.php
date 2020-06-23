@@ -6,11 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreatePasosTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('pasos', function (Blueprint $table) {
@@ -19,8 +14,8 @@ class CreatePasosTable extends Migration
             $table->integer('num_pasos');
             $table->integer('distancia');
             $table->unsignedInteger('paciente_id')->nullable();
-            $table->foreign('paciente_id')->references('id')->on('pacientes')->onDelete('restrict');
-
+            $table->foreign('paciente_id')->references('id')
+                ->on('pacientes')->onDelete('restrict');
             $table->timestamps();
             $table->softDeletes();
         });
