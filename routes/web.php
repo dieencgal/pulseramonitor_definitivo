@@ -15,10 +15,11 @@ use App\basedatos;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+/*
 Route::get('/', function () {
     return view('welcome');
 });
+
 Route::resource('frecuencia_cardiacas', 'Frecuencia_cardiacaController');
 Route::delete('medicos/destroyAll', 'MedicoController@destroyAll')->name('medicos.destroyAll');
 
