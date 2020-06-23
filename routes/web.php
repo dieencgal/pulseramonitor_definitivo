@@ -15,10 +15,12 @@ use App\basedatos;
 | contains the "web" middleware group. Now create something great!
 |
 */
-/*
-Route::get('/', function () {
+
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
+Route::get('/', 'HomeController@inicio');
+
 
 Route::resource('frecuencia_cardiacas', 'Frecuencia_cardiacaController');
 Route::delete('medicos/destroyAll', 'MedicoController@destroyAll')->name('medicos.destroyAll');
@@ -50,9 +52,15 @@ Route::get('login/google/callback', 'Auth\LoginController@handleProviderCallback
 
 //Route::get('/prueba', 'HomeController@index');
 
-Route::put('post/{id}', function ($id) {
-    //o
-})->middleware('auth', 'role:admin');
+/*Route::put('post/{id}', function ($id) {
+})->middleware('auth', 'role:admin');*/
+//https://medium.com/@cvallejo/middleware-roles-en-laravel-5-6-87541406426f
+
+
+
+
+
+
 
 Route::get('import',  'ContactsController@import');
 Route::post('import', 'ContactsController@parseImport');
@@ -65,13 +73,17 @@ Route::get('comparativas/{id}',  'PacienteController@comparativas');
 Route::get('welcomebased',  'basedatosController@datos');
 Route::get('pasos.indexdos',  'PasosController@datos');
 Route::get('paciente/filtro','Registro_suenoController@filtrarpaciente')->name('pacientes.filtro');
-
+/*
 Route::get('/intermedio', function () {
     return view('intermedio');
 });
+*/
+Route::get('/intermedio', 'MedicoController@closureint');
+Route::get('/ejercicios', 'MedicoController@closureejer');
+/*
 Route::get('/ejercicios', function () {
     return view('ejercicios');
-});
+});*/
 
 
 
@@ -92,11 +104,12 @@ Route::get('/search5','PacienteController@videos');
 Route::get('videosindex',  'VideoController@index');
 
 Route::get('/creat',  'PacienteController@index');
-Route::get('Encuestas', function () {
+Route::get('Encuestas', 'MedicoController@encuestas');
+
+/*Route::get('Encuestas', function () {
     return view('Encuestas');
-});
-pjphp ollllll;
-*/
+});*/
+
 
 
 

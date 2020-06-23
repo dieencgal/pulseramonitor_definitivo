@@ -118,6 +118,12 @@ class HomeController extends Controller
 
 
         }
+        public function inicio(){
+            return view('welcome');
+        }
+        public function apiclosure(Request $request){
+            return $request->user();
+        }
 
         public function login2(Request $request)
         {

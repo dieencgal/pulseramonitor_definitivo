@@ -24,7 +24,15 @@ class MedicoController extends Controller
         return view('medicos/index')->with('medicos', $medicos);
 
     }
-
+    public function closureint(){
+         return view('intermedio');
+    }
+    public function closureejer(){
+        return view('ejercicios');
+}
+    public function encuestas(){
+        return view('Encuestas');
+    }
 
     /**
      * Show the form for creating a new resource.
