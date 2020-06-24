@@ -13,7 +13,7 @@ class CreateQuestionsTable extends Migration
      */
     public function up()
     {
-        Schema::create(config('survey.database.tables.questions'), function (Blueprint $table) {
+       /* Schema::create(config('survey.database.tables.questions'), function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('survey_id')->nullable();
             $table->unsignedInteger('section_id')->nullable();
@@ -23,6 +23,7 @@ class CreateQuestionsTable extends Migration
             $table->json('rules')->nullable();
             $table->timestamps();
         });
+       */
     }
 
     /**
