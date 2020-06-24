@@ -124,6 +124,9 @@ class HomeController extends Controller
         public function apiclosure(Request $request){
             return $request->user();
         }
+        public function ides($id){
+            middleware('auth', 'role:admin');
+        }
 
         public function login2(Request $request)
         {
